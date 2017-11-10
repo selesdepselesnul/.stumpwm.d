@@ -10,3 +10,11 @@
 (make-web-jump "youtube" "google-chrome-stable https://www.youtube.com/results?search_query=")
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
+
+(setf *screen-mode-line-format*
+      (list "%w | "
+            '(:eval (stumpwm:run-shell-command "date" t))))
+
+;; turn on/off the mode line for the current head only.
+(stumpwm:toggle-mode-line (stumpwm:current-screen)
+                          (stumpwm:current-head))
