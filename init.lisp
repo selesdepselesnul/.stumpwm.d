@@ -1,6 +1,6 @@
 (in-package :stumpwm)
 
-;; Web jump (works for Google and Imdb)
+;; Web jump (works for Google and youtube)
 (defmacro make-web-jump (name prefix)
   `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
                (substitute #\+ #\Space search)
