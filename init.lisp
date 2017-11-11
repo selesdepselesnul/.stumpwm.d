@@ -1,3 +1,4 @@
+
 (in-package :stumpwm)
 (ql:quickload :str)
 (ql:quickload :cl-ppcre)
@@ -31,7 +32,7 @@
                "upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E" " '" mode "'"))
 
 (defvar bat (upower "percentage"))
-(defvar charge-status (upower "state|to\ full"))
+(defvar charge-status (upower "state"))
 
 (defun trim-total (str)
   (cl-ppcre:regex-replace-all "\\s"
@@ -52,7 +53,6 @@
                       (trim-total (stumpwm:run-shell-command bat t))
                       "battery-percentage : ")))
             " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))))
-
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
