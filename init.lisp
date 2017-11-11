@@ -22,13 +22,18 @@
 (make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
 (defcommand github-selesdepselesnul ()
-    () (run-shell-command (on-default-browser "https://github.com/selesdepselesnul")))
+    () (run-shell-command
+        (on-default-browser
+         "https://github.com/selesdepselesnul")))
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
 
 (defun upower (mode)
   (concatenate 'string
-               "upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E" " '" mode "'"))
+               "upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E "
+               "'"
+               mode
+               "'"))
 
 (defvar bat (upower "percentage"))
 (defvar charge-status (upower "state"))
@@ -47,12 +52,25 @@
 (defun disk-usage (device)
   (format nil
           "~{~A~^, ~}"
-          (remove-if (lambda (x) (= 0 (length x)))
-                     (cl-ppcre:split "\\|"
-                                     (values
-                                      (trim-total
-                                       (stumpwm:run-shell-command (disk-usage-command device)  t)
-                                       "|"))))))
+          (remove-if
+           (lambda (x) (= 0 (length x)))
+           (cl-ppcre:split "\\|"
+                           (values
+                            (trim-total
+                             (stumpwm:run-shell-command
+                              (disk-usage-command device)
+                              t)
+                             "|"))))))
+
+(defun uptime ()
+  (values
+   (cl-ppcre:regex-replace-all
+    ","
+    (nth 4
+         (cl-ppcre:split
+          "\\s"
+          (stumpwm:run-shell-command "uptime" t)))
+    "")))
 
 (setf *screen-mode-line-format*
       (list "" '(:eval
@@ -68,7 +86,8 @@
                       (trim-total (stumpwm:run-shell-command bat t))
                       "battery-percentage : ")))
             " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))
-            " | " '(:eval (disk-usage "/dev/sda3"))))
+            " | " '(:eval (disk-usage "/dev/sda3"))
+            " | " '(:eval (uptime))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
