@@ -1,6 +1,8 @@
 (in-package :stumpwm)
-
+(ql:quickload :str)
+(ql:quickload :cl-ppcre)
 (require :swank)
+
 (swank-loader:init)
 (swank:create-server :port 4004
                      :style swank:*communication-style*
@@ -27,8 +29,13 @@
 (defvar bat "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep -E percentage")
 
 (setf *screen-mode-line-format*
-      (list "" '(:eval (stumpwm:run-shell-command "date" t))
-            " | " '(:eval (stumpwm:run-shell-command bat t))))
+      (list "" '(:eval (str:trim (stumpwm:run-shell-command "date" t)))
+            " | " '(:eval
+                    (values
+                     (cl-ppcre:regex-replace-all
+                      "percentage:"
+                      (str:trim (stumpwm:run-shell-command bat t))
+                      "battery-percentage    : ")))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
