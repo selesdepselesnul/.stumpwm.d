@@ -11,9 +11,13 @@
      (substitute #\+ #\Space search)
      (run-shell-command (concatenate 'string ,prefix search))))
 
-(make-web-jump "google" "google-chrome-stable http://www.google.com/search?q=")
-(make-web-jump "youtube" "google-chrome-stable https://www.youtube.com/results?search_query=")
-(make-web-jump "github-trending" "google-chrome-stable https://github.com/trending/")
+(defun on-default-browser (url)
+  (concatenate 'string "google-chrome-stable" " " url))
+
+(make-web-jump "google" (on-default-browser "http://www.google.com/search?q="))
+(make-web-jump "youtube" (on-default-browser "https://www.youtube.com/results?search_query="))
+(make-web-jump "github-trending" (on-default-browser "https://github.com/trending/"))
+(make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
 
