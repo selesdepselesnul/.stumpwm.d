@@ -39,7 +39,12 @@
                               ""))
 
 (setf *screen-mode-line-format*
-      (list "" '(:eval (str:trim (stumpwm:run-shell-command "date" t)))
+      (list "" '(:eval
+                 (str:trim (values
+                            (cl-ppcre:regex-replace-all
+                             ":\\d+\\sWIB"
+                             (stumpwm:run-shell-command "date" t)
+                             " WIB"))))
             " | " '(:eval
                     (values
                      (cl-ppcre:regex-replace-all
@@ -47,6 +52,7 @@
                       (trim-total (stumpwm:run-shell-command bat t))
                       "battery-percentage : ")))
             " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))))
+
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
