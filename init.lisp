@@ -26,16 +26,27 @@
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
 
-(defvar bat "upower -i /org/freedesktop/UPower/devices/battery_BAT1 | grep -E percentage")
+(defun upower (mode)
+  (concatenate 'string
+               "upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E" " '" mode "'"))
+
+(defvar bat (upower "percentage"))
+(defvar charge-status (upower "state|to\ full"))
+
+(defun trim-total (str)
+  (cl-ppcre:regex-replace-all "\\s"
+                              str
+                              ""))
 
 (setf *screen-mode-line-format*
       (list "" '(:eval (str:trim (stumpwm:run-shell-command "date" t)))
             " | " '(:eval
                     (values
                      (cl-ppcre:regex-replace-all
-                      "percentage:"
-                      (str:trim (stumpwm:run-shell-command bat t))
-                      "battery-percentage    : ")))))
+                      "percentage : "
+                      (trim-total (stumpwm:run-shell-command bat t))
+                      "battery-percentage : ")))
+            " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
