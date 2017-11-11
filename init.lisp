@@ -1,12 +1,19 @@
 (in-package :stumpwm)
 
+(require :swank)
+(swank-loader:init)
+(swank:create-server :port 4004
+                     :style swank:*communication-style*
+                     :dont-close t)
 ;; Web jump (works for google and youtube)
 (defmacro make-web-jump (name prefix)
   `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
                (substitute #\+ #\Space search)
                (run-shell-command (concatenate 'string ,prefix search))))
 
+
 (make-web-jump "google" "google-chrome-stable http://www.google.com/search?q=")
+(make-web-jump "youtube" "google-chrome-stable https://www.youtube.com/results?search_query=")
 (make-web-jump "youtube" "google-chrome-stable https://www.youtube.com/results?search_query=")
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
