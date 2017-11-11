@@ -19,6 +19,9 @@
 (make-web-jump "github-trending" (on-default-browser "https://github.com/trending/"))
 (make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
+(defcommand github-selesdepselesnul ()
+    () (run-shell-command (on-default-browser "https://github.com/selesdepselesnul")))
+
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
 
 (setf *screen-mode-line-format*
