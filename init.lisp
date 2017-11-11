@@ -1,4 +1,3 @@
-
 (in-package :stumpwm)
 (ql:quickload :str)
 (ql:quickload :cl-ppcre)
@@ -34,10 +33,26 @@
 (defvar bat (upower "percentage"))
 (defvar charge-status (upower "state"))
 
-(defun trim-total (str)
+(defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
                               str
-                              ""))
+                              replacer))
+
+(defun disk-usage-command (device)
+  (str:trim
+   (concatenate 'string
+                "df -h | grep -E "
+                device)))
+
+(defun disk-usage (device)
+  (format nil
+          "~{~A~^, ~}"
+          (remove-if (lambda (x) (= 0 (length x)))
+                     (cl-ppcre:split "\\|"
+                                     (values
+                                      (trim-total
+                                       (stumpwm:run-shell-command (disk-usage-command device)  t)
+                                       "|"))))))
 
 (setf *screen-mode-line-format*
       (list "" '(:eval
@@ -52,7 +67,8 @@
                       "percentage : "
                       (trim-total (stumpwm:run-shell-command bat t))
                       "battery-percentage : ")))
-            " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))))
+            " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))
+            " | " '(:eval (disk-usage "/dev/sda3"))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
