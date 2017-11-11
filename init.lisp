@@ -1,6 +1,7 @@
 (in-package :stumpwm)
 (ql:quickload :str)
 (ql:quickload :cl-ppcre)
+(ql:quickload :parse-float)
 (require :swank)
 
 (swank-loader:init)
@@ -62,15 +63,22 @@
                               t)
                              "|"))))))
 
-(defun uptime ()
-  (values
-   (cl-ppcre:regex-replace-all
-    ","
-    (nth 4
-         (cl-ppcre:split
-          "\\s"
-          (stumpwm:run-shell-command "uptime" t)))
-    "")))
+(defun uptime () 
+  (write-to-string
+   (round (/
+           (parse-float:parse-float
+            (car (cl-ppcre:split
+                  "\\s"
+                  (with-open-file (stream "/proc/uptime")
+                    (read-line stream nil))))) 
+           60))))
+
+(defun date-time ()
+  (str:trim (values
+             (cl-ppcre:regex-replace-all
+              ":\\d+\\sWIB"
+              (stumpwm:run-shell-command "date" t)
+              " WIB"))))
 
 (setf *screen-mode-line-format*
       (list "" '(:eval
@@ -87,7 +95,7 @@
                       "battery-percentage : ")))
             " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))
             " | " '(:eval (disk-usage "/dev/sda3"))
-            " | " '(:eval (uptime))))
+            " | " '(:eval (concatenate 'string "up : " (uptime) " min"))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
