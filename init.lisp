@@ -29,15 +29,23 @@
 
 (stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
 
-(defun upower (mode)
-  (concatenate 'string
-               "upower -i /org/freedesktop/UPower/devices/battery_BAT1| grep -E "
-               "'"
-               mode
-               "'"))
+(defun read-bat (mode)
+  (let ((bat-dir "/sys/class/power_supply/BAT1/"))
+    (values
+     (with-open-file (stream (concatenate 'string bat-dir mode))
+       (read-line stream nil)))))
 
-(defvar bat (upower "percentage"))
-(defvar charge-status (upower "state"))
+(defun read-bat-status ()
+  (concatenate 'string
+               "charge status : "
+               (read-bat "status")))
+
+(defun read-bat-capacity ()
+  (concatenate
+   'string
+   "battery percentage : "
+   (read-bat "capacity")
+   "%"))
 
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
@@ -96,13 +104,8 @@
                              ":\\d+\\sWIB"
                              (stumpwm:run-shell-command "date" t)
                              " WIB"))))
-            " | " '(:eval
-                    (values
-                     (cl-ppcre:regex-replace-all
-                      "percentage : "
-                      (trim-total (stumpwm:run-shell-command bat t))
-                      "battery-percentage : ")))
-            " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))
+            " | " '(:eval (read-bat-capacity))
+            ", " '(:eval (read-bat-status))
             " | " '(:eval (disk-usage "/dev/sda3"))
             " | " '(:eval (concatenate 'string
                            "up : "
