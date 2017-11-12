@@ -35,17 +35,17 @@
      (with-open-file (stream (concatenate 'string bat-dir mode))
        (read-line stream nil)))))
 
-(defun read-bat-status ()
-  (concatenate 'string
-               "charge status : "
-               (read-bat "status")))
-
 (defun read-bat-capacity ()
   (concatenate
    'string
-   "battery percentage : "
+   "battery : "
    (read-bat "capacity")
    "%"))
+
+(defun read-bat-status ()
+  (concatenate 'string
+               "status : "
+               (read-bat "status")))
 
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
