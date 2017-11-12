@@ -107,6 +107,12 @@
                              "|| echo disconnected")
                 t))))
 
+(setf *mode-line-background-color*
+      "white")
+
+(setf *mode-line-foreground-color*
+      "black")
+
 (setf *screen-mode-line-format*
       (list "" '(:eval
                  (str:trim (values
@@ -124,6 +130,7 @@
                            (write-to-string (uptime-minute)) 
                            " minutes "))
             " | " '(:eval (check-connection))))
+
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
