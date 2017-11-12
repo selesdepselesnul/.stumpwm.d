@@ -97,6 +97,16 @@
               (stumpwm:run-shell-command "date" t)
               " WIB"))))
 
+(defun check-connection ()
+  (values
+   (trim-total (stumpwm:run-shell-command
+                (concatenate 'string
+                             "ping -q -w 1 -c 1 `ip r "
+                             "| grep default"   
+                             "| cut -d ' ' -f 3` > /dev/null && echo connected"
+                             "|| echo disconnected")
+                t))))
+
 (setf *screen-mode-line-format*
       (list "" '(:eval
                  (str:trim (values
@@ -112,7 +122,8 @@
                            (write-to-string (uptime-hour))
                            " hours "
                            (write-to-string (uptime-minute)) 
-                           " minutes "))))
+                           " minutes "))
+            " | " '(:eval (check-connection))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
