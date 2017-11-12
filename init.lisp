@@ -13,8 +13,8 @@
 ;; Web jump
 (defmacro make-web-jump (name prefix)
   `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
-     (substitute #\+ #\Space search)
-     (run-shell-command (concatenate 'string ,prefix search))))
+               (substitute #\+ #\Space search)
+               (run-shell-command (concatenate 'string ,prefix search))))
 
 (defun on-default-browser (url)
   (concatenate 'string "google-chrome-stable" " " url))
@@ -25,9 +25,9 @@
 (make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
 (defcommand github-selesdepselesnul ()
-    () (run-shell-command
-        (on-default-browser
-         "https://github.com/selesdepselesnul")))
+  () (run-shell-command
+      (on-default-browser
+       "https://github.com/selesdepselesnul")))
 
 (defun read-bat (mode)
   (let ((bat-dir "/sys/class/power_supply/BAT1/"))
@@ -107,7 +107,6 @@
                              "|| echo disconnected")
                 t))))
 
-(setf *shell-program* "/usr/bin/xfce4-terminal")
 
 (setf *mode-line-background-color*
       "white")
