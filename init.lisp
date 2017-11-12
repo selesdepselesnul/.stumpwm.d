@@ -27,8 +27,6 @@
         (on-default-browser
          "https://github.com/selesdepselesnul")))
 
-(stumpwm:define-key stumpwm:*root-map* (stumpwm:kbd "c") "exec xfce4-terminal")
-
 (defun read-bat (mode)
   (let ((bat-dir "/sys/class/power_supply/BAT1/"))
     (values
@@ -107,6 +105,8 @@
                              "|| echo disconnected")
                 t))))
 
+(setf *shell-program* "/usr/bin/xfce4-terminal")
+
 (setf *mode-line-background-color*
       "white")
 
@@ -137,8 +137,12 @@
                            " minutes "))
             " | " '(:eval (check-connection))))
 
-
+(defcommand now-we-are-six (name age)
+    ((:string "Enter your name: ")
+     (:number "Enter your age: "))
+  (message "~a, in six years you will be ~a" name (+ 6 age))) 
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
                           (stumpwm:current-head))
+
