@@ -63,15 +63,24 @@
                               t)
                              "|"))))))
 
-(defun uptime () 
-  (write-to-string
+(defun uptime-second ()
+  (parse-float:parse-float
+   (car (cl-ppcre:split
+         "\\s"
+         (with-open-file (stream "/proc/uptime")
+           (read-line stream nil))))))
+
+(defun uptime-hour () 
+  (values
    (round (/
-           (parse-float:parse-float
-            (car (cl-ppcre:split
-                  "\\s"
-                  (with-open-file (stream "/proc/uptime")
-                    (read-line stream nil))))) 
-           60))))
+           (uptime-second) 
+           3600))))
+
+(defun uptime-minute ()
+  (values
+   (round
+    (/ (rem (uptime-second) 3600)
+       60))))
 
 (defun date-time ()
   (str:trim (values
@@ -95,7 +104,12 @@
                       "battery-percentage : ")))
             " | " '(:eval (trim-total (stumpwm:run-shell-command charge-status t)))
             " | " '(:eval (disk-usage "/dev/sda3"))
-            " | " '(:eval (concatenate 'string "up : " (uptime) " min"))))
+            " | " '(:eval (concatenate 'string
+                           "up : "
+                           (write-to-string (uptime-hour))
+                           " hours "
+                           (write-to-string (uptime-minute)) 
+                           " minutes "))))
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
