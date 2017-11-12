@@ -2,6 +2,8 @@
 (ql:quickload :str)
 (ql:quickload :cl-ppcre)
 (ql:quickload :parse-float)
+(ql:quickload :drakma)
+(ql:quickload :yason)
 (require :swank)
 
 (swank-loader:init)
@@ -137,10 +139,32 @@
                            " minutes "))
             " | " '(:eval (check-connection))))
 
-(defcommand now-we-are-six (name age)
-    ((:string "Enter your name: ")
-     (:number "Enter your age: "))
-  (message "~a, in six years you will be ~a" name (+ 6 age))) 
+
+(defun newline-if-max (str max-length)
+  (labels ((func (str1 str2)
+             (if (> (length str2) max-length)
+                 (func
+                  (concatenate 'string str1 (subseq str2 0 max-length) "~%")
+                  (subseq str2 max-length))
+                 (concatenate 'string str1 str2))))
+    (func "" str)))
+
+(defun programming-quote ()
+  (let ((stream (drakma:http-request "http://quotes.stormconsultancy.co.uk/random.json"
+                                     :want-stream t)))
+    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
+    (let* ((result (yason:parse stream :object-as :plist))
+           (author (nth 1 result))
+           (quotes (nth 5 result)))
+      (message
+       (concatenate 'string
+                    (newline-if-max quotes 140)
+                    "~%"
+                    author)))))
+
+(defcommand programming-quote-command () () (programming-quote)) 
+
+(define-key *root-map* (kbd "q") "programming-quote-command")
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
