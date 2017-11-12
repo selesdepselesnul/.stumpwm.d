@@ -113,6 +113,12 @@
 (setf *mode-line-foreground-color*
       "black")
 
+(setf *message-window-gravity*
+      :center)
+
+(setf *input-window-gravity*
+      :center)
+
 (setf *screen-mode-line-format*
       (list "" '(:eval
                  (str:trim (values
@@ -130,6 +136,7 @@
                            (write-to-string (uptime-minute)) 
                            " minutes "))
             " | " '(:eval (check-connection))))
+
 
 
 ;; turn on/off the mode line for the current head only.
