@@ -25,15 +25,16 @@
 (make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
 (defcommand github-selesdepselesnul ()
-  () (run-shell-command
-      (on-default-browser
-       "https://github.com/selesdepselesnul")))
+    () (run-shell-command
+        (on-default-browser
+         "https://github.com/selesdepselesnul")))
 
 (defun read-bat (mode)
   (let ((bat-dir "/sys/class/power_supply/BAT1/"))
-    (values
-     (with-open-file (stream (concatenate 'string bat-dir mode))
-       (read-line stream nil)))))
+    (string-downcase
+     (values
+      (with-open-file (stream (concatenate 'string bat-dir mode))
+        (read-line stream nil))))))
 
 (defun read-bat-capacity ()
   (concatenate
