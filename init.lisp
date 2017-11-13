@@ -107,7 +107,6 @@
                              "|| echo disconnected")
                 t))))
 
-
 (setf *mode-line-background-color*
       "white")
 
@@ -132,8 +131,9 @@
             " | " '(:eval (disk-usage "/dev/sda3"))
             " | " '(:eval (concatenate 'string
                            "up : "
-                           (write-to-string (uptime-hour))
-                           " hours "
+                           (let ((uptime (uptime-hour)))
+                             (when (> uptime 0)
+                               (concatenate 'string (write-to-string uptime) " hours ")))
                            (write-to-string (uptime-minute)) 
                            " minutes "))
             " | " '(:eval (check-connection))))
