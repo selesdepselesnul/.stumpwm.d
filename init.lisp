@@ -60,17 +60,22 @@
                 device)))
 
 (defun disk-usage (device)
-  (format nil
-          "~{~A~^, ~}"
-          (remove-if
-           (lambda (x) (= 0 (length x)))
-           (cl-ppcre:split "\\|"
-                           (values
-                            (trim-total
-                             (stumpwm:run-shell-command
-                              (disk-usage-command device)
-                              t)
-                             "|"))))))
+  (let ((disk (remove-if
+               (lambda (x) (= 0 (length x)))
+               (cl-ppcre:split "\\|"
+                               (values
+                                (trim-total
+                                 (stumpwm:run-shell-command
+                                  (disk-usage-command device)
+                                  t)
+                                 "|"))))))
+    (concatenate 'string
+                 "total : "
+                 (nth 1 disk)
+                 ", used : "
+                 (nth 2 disk)
+                 ", used % : "
+                 (nth 4 disk))))
 
 (defun uptime-second ()
   (parse-float:parse-float
