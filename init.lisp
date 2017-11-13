@@ -163,8 +163,12 @@
                     author)))))
 
 (defcommand programming-quote-command () () (programming-quote)) 
+(defcommand termite-command () ()
+  "run termite"
+  (run-or-raise "termite" '(:class "termite-command")))
 
 (define-key *root-map* (kbd "q") "programming-quote-command")
+(define-key *root-map* (kbd "c") "termite-command")
 
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
