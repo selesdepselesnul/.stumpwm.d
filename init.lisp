@@ -86,9 +86,9 @@
 
 (defun uptime-hour () 
   (values
-   (round (/
-           (uptime-second) 
-           3600))))
+   (truncate
+    (uptime-second) 
+    3600)))
 
 (defun uptime-minute ()
   (values
@@ -178,4 +178,3 @@
 ;; turn on/off the mode line for the current head only.
 (stumpwm:toggle-mode-line (stumpwm:current-screen)
                           (stumpwm:current-head))
-
