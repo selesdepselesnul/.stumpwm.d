@@ -103,6 +103,13 @@
     "Thursday" "Friday" "Saturday"
     "Sunday"))
 
+(defun tz->str (tz)
+  (let ((tz-str (write-to-string (- tz))))
+    (concatenate 'string "GMT "
+                 (if (< tz 0)
+                     (concatenate 'string "+" tz-str)
+                     (concatenate 'string "-" tz-str)))))
+
 (defun date-time () 
   (multiple-value-bind
         (_ minute hour day month year day-of-week __ tz)
@@ -112,7 +119,7 @@
             (nth day-of-week *day-names*)
             hour
             minute
-            (- tz)
+            (tz->str tz)
             day
             month
             year)))
@@ -180,6 +187,7 @@
 (defcommand termite-command () ()
   "run termite"
   (run-or-raise "termite" '(:class "termite-command")))
+
 
 (defcommand htop-command () () 
   (run-or-raise "termite -e htop" '(:class "termite-command")))
