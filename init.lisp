@@ -96,12 +96,24 @@
     (/ (rem (uptime-second) 3600)
        60))))
 
-(defun date-time ()
-  (str:trim (values
-             (cl-ppcre:regex-replace-all
-              ":\\d+\\sWIB"
-              (stumpwm:run-shell-command "date" t)
-              " WIB"))))
+(defconstant *day-names*
+  '("Monday" "Tuesday" "Wednesday"
+    "Thursday" "Friday" "Saturday"
+    "Sunday"))
+
+(defun date-time () 
+  (multiple-value-bind
+        (_ minute hour day month year day-of-week __ tz)
+      (get-decoded-time)
+    (format nil
+            "~a ~a:~a GMT ~a, ~a-~a-~a"
+            (nth day-of-week *day-names*)
+            hour
+            minute
+            (- tz)
+            day
+            month
+            year)))
 
 (defun check-connection ()
   (values
@@ -126,12 +138,7 @@
       :center)
 
 (setf *screen-mode-line-format*
-      (list "" '(:eval
-                 (str:trim (values
-                            (cl-ppcre:regex-replace-all
-                             ":\\d+\\sWIB"
-                             (stumpwm:run-shell-command "date" t)
-                             " WIB"))))
+      (list "" '(:eval (date-time))
             " | " '(:eval (read-bat-capacity))
             ", " '(:eval (read-bat-status))
             " | " '(:eval (disk-usage "/dev/sda3"))
@@ -143,7 +150,6 @@
                            (write-to-string (uptime-minute)) 
                            " minutes "))
             " | " '(:eval (check-connection))))
-
 
 (defun newline-if-max (str max-length)
   (labels ((func (str1 str2)
