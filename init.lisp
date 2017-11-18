@@ -1,9 +1,4 @@
 (in-package :stumpwm)
-(ql:quickload :str)
-(ql:quickload :cl-ppcre)
-(ql:quickload :parse-float)
-(ql:quickload :drakma)
-(ql:quickload :yason)
 (require :swank)
 
 (swank-loader:init)
@@ -73,9 +68,7 @@
                  "total : "
                  (nth 1 disk)
                  ", used : "
-                 (nth 2 disk)
-                 ", used % : "
-                 (nth 4 disk))))
+                 (nth 2 disk))))
 
 (defun uptime-second ()
   (parse-float:parse-float
