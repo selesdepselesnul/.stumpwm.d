@@ -204,10 +204,13 @@
   (run-or-raise "spotify" '(:class "spotify-command")))
 
 (defcommand poweroff-command () ()
-            (run-or-raise "termite -e 'sudo systemctl poweroff'" '(:class "poweroff-command")))
+  (run-or-raise "termite -e 'sudo systemctl poweroff'" '(:class "poweroff-command")))
 
 (defcommand reboot-command () ()
-            (run-or-raise "termite -e 'sudo systemctl reboot'" '(:class "reboot-command")))
+  (run-or-raise "termite -e 'sudo systemctl reboot'" '(:class "reboot-command")))
+
+(defcommand postman-command () ()
+  (run-or-raise "postman" '(:class "postman-command")))
 
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
@@ -221,6 +224,7 @@
 (define-key *top-map* (kbd "s-m") "spotify-command")
 (define-key *top-map* (kbd "s-k") "poweroff-command")
 (define-key *top-map* (kbd "s-b") "reboot-command")
+(define-key *top-map* (kbd "s-u") "postman-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
