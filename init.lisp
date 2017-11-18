@@ -204,6 +204,9 @@
 (defcommand google-chrome-command () ()
   (run-or-raise "google-chrome-stable" '(:class "google-chrome-command")))
 
+(defcommand okular-command () ()
+  (run-or-raise "okular" '(:class "okular-command")))
+
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
 (define-key *root-map* (kbd "M-p") "htop-command")
@@ -212,6 +215,7 @@
 (define-key *root-map* (kbd "M-t") "tor-browser-command")
 (define-key *root-map* (kbd "M-v") "vlc-command")
 (define-key *root-map* (kbd "M-g") "google-chrome-command")
+(define-key *root-map* (kbd "M-r") "okular-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
