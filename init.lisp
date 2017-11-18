@@ -193,13 +193,17 @@
   (run-shell-command "termite -e 'sudo wifi-menu'"))
 
 (defcommand vnstat-command () ()
-  (run-shell-command "termite -e 'vnstat -l'"))
+  (run-or-raise "termite -e 'vnstat -l'" '(:class "vnstat-command")))
+
+(defcommand tor-browser-command () ()
+  (run-or-raise "tor-browser" '(:class "tor-browser-command")))
 
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
 (define-key *root-map* (kbd "M-p") "htop-command")
 (define-key *root-map* (kbd "M-w") "wifi-menu-command")
 (define-key *root-map* (kbd "M-n") "vnstat-command")
+(define-key *root-map* (kbd "M-t") "tor-browser-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
