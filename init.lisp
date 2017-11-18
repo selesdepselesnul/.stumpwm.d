@@ -207,6 +207,9 @@
 (defcommand okular-command () ()
   (run-or-raise "okular" '(:class "okular-command")))
 
+(defcommand spotify-command () ()
+  (run-or-raise "spotify" '(:class "spotify-command")))
+
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
 (define-key *root-map* (kbd "M-p") "htop-command")
@@ -216,6 +219,7 @@
 (define-key *root-map* (kbd "M-v") "vlc-command")
 (define-key *root-map* (kbd "M-g") "google-chrome-command")
 (define-key *root-map* (kbd "M-r") "okular-command")
+(define-key *root-map* (kbd "M-m") "spotify-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
