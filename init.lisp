@@ -212,14 +212,14 @@
 
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
-(define-key *root-map* (kbd "M-p") "htop-command")
-(define-key *root-map* (kbd "M-w") "wifi-menu-command")
-(define-key *root-map* (kbd "M-n") "vnstat-command")
-(define-key *root-map* (kbd "M-t") "tor-browser-command")
-(define-key *root-map* (kbd "M-v") "vlc-command")
-(define-key *root-map* (kbd "M-g") "google-chrome-command")
-(define-key *root-map* (kbd "M-r") "okular-command")
-(define-key *root-map* (kbd "M-m") "spotify-command")
+(define-key *top-map* (kbd "s-p") "htop-command")
+(define-key *top-map* (kbd "s-w") "wifi-menu-command")
+(define-key *top-map* (kbd "s-n") "vnstat-command")
+(define-key *top-map* (kbd "s-t") "tor-browser-command")
+(define-key *top-map* (kbd "s-v") "vlc-command")
+(define-key *top-map* (kbd "s-g") "google-chrome-command")
+(define-key *top-map* (kbd "s-r") "okular-command")
+(define-key *top-map* (kbd "s-m") "spotify-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
