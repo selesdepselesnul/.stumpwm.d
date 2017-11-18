@@ -24,8 +24,6 @@
 (make-web-jump "github-trending" (on-default-browser "https://github.com/trending/"))
 (make-web-jump "wiki" (on-default-browser "https://en.wikipedia.org/wiki/"))
 
-
-
 (defcommand github-selesdepselesnul ()
     () (run-shell-command
         (on-default-browser
@@ -115,7 +113,7 @@
         (_ minute hour day month year day-of-week __ tz)
       (get-decoded-time)
     (format nil
-            "~a ~a:~a GMT ~a, ~a-~a-~a"
+            "~a ~a:~a ~a, ~a-~a-~a"
             (nth day-of-week *day-names*)
             hour
             minute
@@ -188,13 +186,16 @@
   "run termite"
   (run-or-raise "termite" '(:class "termite-command")))
 
-
 (defcommand htop-command () () 
   (run-or-raise "termite -e htop" '(:class "termite-command")))
+
+(defcommand wifi-menu-command () ()
+  (run-shell-command "termite -e 'sudo wifi-menu'"))
 
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
 (define-key *root-map* (kbd "M-p") "htop-command")
+(define-key *root-map* (kbd "M-w") "wifi-menu-command")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
