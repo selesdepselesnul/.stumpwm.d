@@ -1,4 +1,9 @@
 (in-package :stumpwm)
+(ql:quickload :str)
+(ql:quickload :cl-ppcre)
+(ql:quickload :parse-float)
+(ql:quickload :drakma)
+(ql:quickload :yason)
 (require :swank)
 
 (swank-loader:init)
