@@ -180,42 +180,6 @@
 
 (defcommand programming-quote-command () () (programming-quote)) 
 
-(defcommand termite-command () ()
-  "run termite"
-  (run-or-raise "termite" '(:class "termite-command")))
-
-(defcommand htop-command () () 
-  (run-or-raise "termite -e htop" '(:class "termite-command")))
-
-(defcommand wifi-menu-command () ()
-  (run-shell-command "termite -e 'sudo wifi-menu'"))
-
-(defcommand vnstat-command () ()
-  (run-or-raise "termite -e 'vnstat -l'" '(:class "vnstat-command")))
-
-(defcommand tor-browser-command () ()
-  (run-or-raise "tor-browser" '(:class "tor-browser-command")))
-
-(defcommand vlc-command () ()
-  (run-or-raise "vlc" '(:class "vlc-command")))
-
-(defcommand google-chrome-command () ()
-  (run-or-raise "google-chrome-stable" '(:class "google-chrome-command")))
-
-(defcommand okular-command () ()
-  (run-or-raise "okular" '(:class "okular-command")))
-
-(defcommand spotify-command () ()
-  (run-or-raise "spotify" '(:class "spotify-command")))
-
-(defcommand poweroff-command () ()
-  (run-or-raise "termite -e 'sudo systemctl poweroff'" '(:class "poweroff-command")))
-
-(defcommand reboot-command () ()
-  (run-or-raise "termite -e 'sudo systemctl reboot'" '(:class "reboot-command")))
-
-(defcommand postman-command () ()
-  (run-or-raise "postman" '(:class "postman-command")))
 
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
@@ -223,21 +187,22 @@
        (run-or-raise ,command-exp '(:class ,(string command-name))))
      (define-key ,map (kbd ,key) ,(string command-name))))
 
+;; custom-key
+(make-custom-key termite "termite" *root-map* "c")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
+(make-custom-key htop "termite -e htop" *top-map* "s-p")
+(make-custom-key wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
+(make-custom-key vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
+(make-custom-key tor-browser "tor-browser" *top-map* "s-t")
+(make-custom-key vlc "vlc" *top-map* "s-v")
+(make-custom-key okular "okular" *top-map* "s-r")
+(make-custom-key spotify "spotify" *top-map* "s-m")
+(make-custom-key poweroff "termite -e 'sudo systemctl poweroff'" *top-map* "s-k")
+(make-custom-key reboot "termite -e 'sudo systemctl reboot'" *top-map* "s-b")
+(make-custom-key postman "postman" *top-map* "s-u")
+(make-custom-key google-chrome "google-chrome-stable" *top-map* "s-g")
+
 (define-key *root-map* (kbd "q") "programming-quote-command")
-(define-key *root-map* (kbd "c") "termite-command")
-(define-key *top-map* (kbd "s-p") "htop-command")
-(define-key *top-map* (kbd "s-w") "wifi-menu-command")
-(define-key *top-map* (kbd "s-n") "vnstat-command")
-(define-key *top-map* (kbd "s-t") "tor-browser-command")
-(define-key *top-map* (kbd "s-v") "vlc-command")
-(define-key *top-map* (kbd "s-g") "google-chrome-command")
-(define-key *top-map* (kbd "s-r") "okular-command")
-(define-key *top-map* (kbd "s-m") "spotify-command")
-(define-key *top-map* (kbd "s-k") "poweroff-command")
-(define-key *top-map* (kbd "s-b") "reboot-command")
-(define-key *top-map* (kbd "s-u") "postman-command")
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
-
 
