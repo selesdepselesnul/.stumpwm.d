@@ -217,6 +217,13 @@
 (defcommand postman-command () ()
   (run-or-raise "postman" '(:class "postman-command")))
 
+(defmacro make-custom-key (command-name command-exp map key)
+  `(progn
+     (defcommand ,command-name () ()
+       (run-or-raise ,command-exp '(:class ,(string command-name))))
+     (define-key ,map (kbd ,key) ,(string command-name))))
+
+(make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (define-key *root-map* (kbd "q") "programming-quote-command")
 (define-key *root-map* (kbd "c") "termite-command")
 (define-key *top-map* (kbd "s-p") "htop-command")
@@ -230,7 +237,7 @@
 (define-key *top-map* (kbd "s-k") "poweroff-command")
 (define-key *top-map* (kbd "s-b") "reboot-command")
 (define-key *top-map* (kbd "s-u") "postman-command")
-
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
+
 
