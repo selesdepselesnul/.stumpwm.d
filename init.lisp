@@ -10,11 +10,15 @@
 (swank:create-server :port 4004
                      :style swank:*communication-style*
                      :dont-close t)
+
+;; hook
+(add-hook *start-hook* #'emacs)
+
 ;; Web jump
 (defmacro make-web-jump (name prefix)
   `(defcommand ,(intern name) (search) ((:rest ,(concatenate 'string name " search: ")))
-               (substitute #\+ #\Space search)
-               (run-shell-command (concatenate 'string ,prefix search))))
+     (substitute #\+ #\Space search)
+     (run-shell-command (concatenate 'string ,prefix search))))
 
 (defun on-default-browser (url)
   (concatenate 'string "google-chrome-stable" " " url))
@@ -177,6 +181,7 @@
                     (newline-if-max quotes 140)
                     "~%"
                     author)))))
+
 
 (defcommand programming-quote-command () () (programming-quote)) 
 
