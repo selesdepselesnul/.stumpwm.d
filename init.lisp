@@ -184,18 +184,17 @@
                     "~%"
                     author)))))
 
-
-(defcommand programming-quote-command () () (programming-quote)) 
-
-
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
-     (defcommand ,command-name () ()
-       (run-or-raise ,command-exp '(:class ,(string command-name))))
+     (if (functionp ,command-exp)
+         (defcommand ,command-name () () (funcall ,command-exp))
+         (defcommand ,command-name () ()
+           (run-or-raise ,command-exp '(:class ,(string command-name))))) 
      (define-key ,map (kbd ,key) ,(string command-name))))
 
 ;; custom-key
 (make-custom-key termite "termite" *root-map* "c")
+(make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (make-custom-key htop "termite -e htop" *top-map* "s-p")
 (make-custom-key wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
@@ -209,7 +208,6 @@
 (make-custom-key postman "postman" *top-map* "s-u")
 (make-custom-key google-chrome "google-chrome-stable" *top-map* "s-g")
 
-(define-key *root-map* (kbd "q") "programming-quote-command")
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
 
