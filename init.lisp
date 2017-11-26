@@ -11,6 +11,8 @@
                      :style swank:*communication-style*
                      :dont-close t)
 
+(setq *startup-message* "Welcome, are you ready to code ?")
+
 ;; hook
 (add-hook *start-hook* #'emacs)
 
