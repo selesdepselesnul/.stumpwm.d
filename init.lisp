@@ -100,7 +100,7 @@
     (/ (rem (uptime-second) 3600)
        60))))
 
-(defconstant *day-names*
+(defconstant +day-names+
   '("Monday" "Tuesday" "Wednesday"
     "Thursday" "Friday" "Saturday"
     "Sunday"))
@@ -118,7 +118,7 @@
       (get-decoded-time)
     (format nil
             "~a ~a:~a ~a, ~a-~a-~a"
-            (nth day-of-week *day-names*)
+            (nth day-of-week +day-names+)
             hour
             minute
             (tz->str tz)
