@@ -193,6 +193,7 @@
      (define-key ,map (kbd ,key) ,(string command-name))))
 
 ;; custom-key
+(define-key *top-map* (kbd "s-F5") "refresh")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
