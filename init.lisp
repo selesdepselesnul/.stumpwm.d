@@ -184,6 +184,7 @@
                     "~%"
                     author)))))
 
+
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
      (if (functionp ,command-exp)
@@ -192,8 +193,13 @@
            (run-or-raise ,command-exp '(:class ,(string command-name))))) 
      (define-key ,map (kbd ,key) ,(string command-name))))
 
+(defcommand brigthness-command (brigthness)
+    ((:string "Enter brigthness: "))
+  (run-or-raise (concatenate 'string "termite -e 'sudo -S caang " brigthness "'")
+                '(:class "brigthness-command")))
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
+(define-key *top-map* (kbd "s-+") "brigthness-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
@@ -211,4 +217,6 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
+
+
 
