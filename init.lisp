@@ -114,14 +114,13 @@
 
 (defun date-time () 
   (multiple-value-bind
-        (_ minute hour day month year day-of-week __ tz)
+        (_ minute hour day month year day-of-week)
       (get-decoded-time)
     (format nil
-            "~a ~a:~a ~a, ~a-~a-~a"
+            "~a ~a:~a, ~a-~a-~a"
             (nth day-of-week +day-names+)
             hour
             minute
-            (tz->str tz)
             day
             month
             year)))
@@ -135,6 +134,11 @@
                              "| cut -d ' ' -f 3` > /dev/null && echo connected"
                              "|| echo disconnected")
                 t))))
+
+(defun check-brigthness ()
+  (concatenate 'string
+               "brigthness : "
+               (trim-total (stumpwm:run-shell-command "caang" t))))
 
 (setf *mode-line-background-color*
       "white")
@@ -160,7 +164,8 @@
                                (concatenate 'string (write-to-string uptime) " hours ")))
                            (write-to-string (uptime-minute)) 
                            " minutes "))
-            " | " '(:eval (check-connection))))
+            " | " '(:eval (check-connection))
+            " | " '(:eval (check-brigthness))))
 
 (defun newline-if-max (str max-length)
   (labels ((func (str1 str2)
@@ -183,7 +188,6 @@
                     (newline-if-max quotes 140)
                     "~%"
                     author)))))
-
 
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
