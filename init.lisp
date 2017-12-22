@@ -15,29 +15,15 @@
 
 (add-hook *start-hook* #'emacs)
 
-(defun read-bat (mode)
-  (let ((bat-dir "/sys/class/power_supply/BAT1/"))
-    (string-downcase
-     (values
-      (with-open-file (stream (concatenate 'string bat-dir mode))
-        (read-line stream nil))))))
-
-(defun read-bat-capacity ()
-  (concatenate
-   'string
-   "battery : "
-   (read-bat "capacity")
-   "%"))
-
-(defun read-bat-status ()
-  (concatenate 'string
-               "status : "
-               (read-bat "status")))
-
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
                               str
                               replacer))
+
+(defun read-bat ()
+  (str:trim (stumpwm:run-shell-command
+             "batu-lepie --all"
+             t)))
 
 (defun disk-usage-command (device)
   (str:trim
@@ -85,13 +71,6 @@
     "Thursday" "Friday" "Saturday"
     "Sunday"))
 
-(defun tz->str (tz)
-  (let ((tz-str (write-to-string (- tz))))
-    (concatenate 'string "GMT "
-                 (if (< tz 0)
-                     (concatenate 'string "+" tz-str)
-                     (concatenate 'string "-" tz-str)))))
-
 (defun date-time () 
   (multiple-value-bind
         (_ minute hour day month year day-of-week)
@@ -134,8 +113,7 @@
 
 (setf *screen-mode-line-format*
       (list "" '(:eval (date-time))
-            " | " '(:eval (read-bat-capacity))
-            ", " '(:eval (read-bat-status))
+            " | " '(:eval (read-bat))
             " | " '(:eval (disk-usage "/dev/sda3"))
             " | " '(:eval (concatenate 'string
                            "up : "
@@ -201,3 +179,6 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
+
+
+
