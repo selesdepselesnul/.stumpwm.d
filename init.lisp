@@ -25,6 +25,7 @@
              "batu-lepie --all"
              t)))
 
+
 (defun disk-usage-command (device)
   (str:trim
    (concatenate 'string
@@ -59,6 +60,7 @@
    (truncate
     (uptime-second) 
     3600)))
+
 
 (defun uptime-minute ()
   (values
@@ -155,13 +157,44 @@
            (run-or-raise ,command-exp '(:class ,(string command-name))))) 
      (define-key ,map (kbd ,key) ,(string command-name))))
 
-(defcommand brigthness-command (brigthness)
+(defcommand caang-command (caang)
     ((:string "Enter brigthness: "))
-  (run-or-raise (concatenate 'string "termite -e 'sudo -S caang " brigthness "'")
+  (run-or-raise (concatenate 'string "termite -e 'sudo -S caang " caang "'")
                 '(:class "brigthness-command")))
+
+(defun ask-sudo-password ()
+  (read-one-line (current-screen) "fill the password : "))
+
+(defun adjust-caang (caang)
+  (if (probe-file
+       (make-pathname :directory
+                      '(:absolute "")
+                      :name
+                      "/tmp/stumpwm_password"))
+      (str:trim (stumpwm:run-shell-command
+                 (concatenate 'string
+                              "sudo -S caang "
+                              caang
+                              " < /tmp/stumpwm_password")
+                 t))
+      (stumpwm:run-shell-command
+       (concatenate 'string
+                    "echo "
+                    (ask-sudo-password)
+                    " > /tmp/stumpwm_password")
+       t)))
+
+(defcommand caang-add-command () ()
+  (adjust-caang "+1"))
+
+(defcommand caang-sub-command () ()
+  (adjust-caang "-1"))
+
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
-(define-key *top-map* (kbd "s-+") "brigthness-command")
+(define-key *top-map* (kbd "s-+") "caang-add-command")
+(define-key *top-map* (kbd "s--") "caang-sub-command")
+(define-key *top-map* (kbd "s-=") "caang-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
