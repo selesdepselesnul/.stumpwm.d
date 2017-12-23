@@ -46,26 +46,6 @@
                  ", used : "
                  (nth 2 disk))))
 
-(defun uptime-second ()
-  (parse-float:parse-float
-   (car (cl-ppcre:split
-         "\\s"
-         (with-open-file (stream "/proc/uptime")
-           (read-line stream nil))))))
-
-(defun uptime-hour () 
-  (values
-   (truncate
-    (uptime-second) 
-    3600)))
-
-
-(defun uptime-minute ()
-  (values
-   (round
-    (/ (rem (uptime-second) 3600)
-       60))))
-
 (defconstant +day-names+
   '("Monday" "Tuesday" "Wednesday"
     "Thursday" "Friday" "Saturday"
@@ -85,14 +65,18 @@
             year)))
 
 (defun check-connection ()
-  (values
-   (trim-total (stumpwm:run-shell-command
-                (concatenate 'string
-                             "ping -q -w 1 -c 1 `ip r "
-                             "| grep default"   
-                             "| cut -d ' ' -f 3` > /dev/null && echo connected"
-                             "|| echo disconnected")
-                t))))
+  (trim-total (stumpwm:run-shell-command
+               (concatenate 'string
+                            "ping -q -w 1 -c 1 `ip r "
+                            "| grep default"   
+                            "| cut -d ' ' -f 3` > /dev/null && echo connected"
+                            "|| echo disconnected")
+               t)))
+
+(defun check-uptime ()
+  (str:trim (stumpwm:run-shell-command
+             "uptime -p"
+             t)))
 
 (defun check-brigthness ()
   (concatenate 'string
@@ -115,13 +99,7 @@
       (list "" '(:eval (date-time))
             " | " '(:eval (read-bat))
             " | " '(:eval (disk-usage "/dev/sda3"))
-            " | " '(:eval (concatenate 'string
-                           "up : "
-                           (let ((uptime (uptime-hour)))
-                             (when (> uptime 0)
-                               (concatenate 'string (write-to-string uptime) " hours ")))
-                           (write-to-string (uptime-minute)) 
-                           " minutes "))
+            " | " '(:eval (check-uptime))
             " | " '(:eval (check-connection))
             " | " '(:eval (check-brigthness))))
 
