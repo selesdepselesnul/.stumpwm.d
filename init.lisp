@@ -13,8 +13,6 @@
 
 (setq *startup-message* "Welcome, are you ready to code ?")
 
-(add-hook *start-hook* #'emacs)
-
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
                               str
