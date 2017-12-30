@@ -33,6 +33,14 @@
                   t)))
    ""))
 
+(defun check-vol ()
+  (str:trim
+   (concatenate 'string
+                "vol : "
+                (stumpwm:run-shell-command
+                 "atur-polum --current"
+                 t))))
+
 (defun disk-usage-command (device)
   (str:trim
    (concatenate 'string
@@ -110,7 +118,8 @@
             " | " '(:eval (disk-usage "/dev/sda3"))
             " | " '(:eval (check-uptime))
             " | " '(:eval (check-connection))
-            " | " '(:eval (check-brigthness))))
+            " | " '(:eval (check-brigthness))
+            " | " '(:eval (check-vol))))
 
 (defun newline-if-max (str max-length)
   (labels ((func (str1 str2)
@@ -197,6 +206,5 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
-
 
 
