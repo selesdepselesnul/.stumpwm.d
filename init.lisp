@@ -19,10 +19,19 @@
                               replacer))
 
 (defun read-bat ()
-  (str:trim (stumpwm:run-shell-command
-             "batu-lepie --all"
-             t)))
-
+  (cl-ppcre:regex-replace-all
+   "\\n"
+   (str:trim
+    (concatenate 'string
+                 "bat : "
+                 (stumpwm:run-shell-command
+                  "batu-lepie --capacity"
+                  t)
+                 "%, "
+                 (stumpwm:run-shell-command
+                  "batu-lepie --status"
+                  t)))
+   ""))
 
 (defun disk-usage-command (device)
   (str:trim
