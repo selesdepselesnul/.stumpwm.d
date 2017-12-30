@@ -178,6 +178,19 @@
                     " > /tmp/stumpwm_password")
        t)))
 
+(defun adjust-volume (vol)
+  (str:trim (stumpwm:run-shell-command
+             (concatenate 'string
+                          "atur-polum "
+                          vol)
+             t)))
+
+(defcommand volume-add-command () ()
+  (adjust-volume "+1"))
+
+(defcommand volume-sub-command () ()
+  (adjust-volume "-1"))
+
 (defcommand caang-add-command () ()
   (adjust-caang "+1"))
 
@@ -189,6 +202,8 @@
 (define-key *top-map* (kbd "s-+") "caang-add-command")
 (define-key *top-map* (kbd "s--") "caang-sub-command")
 (define-key *top-map* (kbd "s-=") "caang-command")
+(define-key *top-map* (kbd "s-)") "volume-add-command")
+(define-key *top-map* (kbd "s-(") "volume-sub-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
