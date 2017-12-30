@@ -191,6 +191,10 @@
 (defcommand volume-sub-command () ()
   (adjust-volume "-1"))
 
+(defcommand volume-command (volume)
+    ((:string "Enter volume: "))
+  (adjust-volume volume))
+
 (defcommand caang-add-command () ()
   (adjust-caang "+1"))
 
@@ -204,6 +208,7 @@
 (define-key *top-map* (kbd "s-=") "caang-command")
 (define-key *top-map* (kbd "s-)") "volume-add-command")
 (define-key *top-map* (kbd "s-(") "volume-sub-command")
+(define-key *top-map* (kbd "s-*") "volume-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
