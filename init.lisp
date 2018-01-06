@@ -146,7 +146,7 @@
                 '(:class "brigthness-command")))
 
 (defun ask-sudo-password ()
-  (read-one-line (current-screen) "fill the password : "))
+  (read-one-line (current-screen) "fill the password : " :password t))
 
 (defun adjust-caang (caang)
   (if (probe-file
