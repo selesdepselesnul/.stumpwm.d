@@ -130,19 +130,6 @@
                  (concatenate 'string str1 str2))))
     (func "" str)))
 
-(defun programming-quote ()
-  (let ((stream (drakma:http-request "http://quotes.stormconsultancy.co.uk/random.json"
-                                     :want-stream t)))
-    (setf (flexi-streams:flexi-stream-external-format stream) :utf-8)
-    (let* ((result (yason:parse stream :object-as :plist))
-           (author (nth 1 result))
-           (quotes (nth 5 result)))
-      (message
-       (concatenate 'string
-                    (newline-if-max quotes 140)
-                    "~%"
-                    author)))))
-
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
      (if (functionp ,command-exp)
@@ -203,7 +190,6 @@
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
-(define-key *top-map* (kbd "s-f") "fullscreen")
 (define-key *top-map* (kbd "s-+") "caang-add-command")
 (define-key *top-map* (kbd "s--") "caang-sub-command")
 (define-key *top-map* (kbd "s-=") "caang-command")
@@ -211,7 +197,6 @@
 (define-key *top-map* (kbd "s-(") "volume-sub-command")
 (define-key *top-map* (kbd "s-*") "volume-command")
 (make-custom-key termite "termite" *root-map* "c")
-(make-custom-key programming-quote-command #'programming-quote *root-map* "q")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (make-custom-key htop "termite -e htop" *top-map* "s-p")
 (make-custom-key wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
