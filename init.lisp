@@ -13,6 +13,8 @@
 
 (setq *startup-message* "Welcome, are you ready to code ?")
 
+
+
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
                               str
@@ -172,6 +174,22 @@
                           vol)
              t)))
 
+(defun group-length () 
+  (length
+   (sort-groups
+    (current-screen))))
+
+(defun make-next-group ()
+  (let ((group-count (group-length)))
+    (if (<= group-count 10)
+        (progn
+          (gnew (write-to-string group-count))
+          (message "new group created")) 
+        (message "group reach max number"))))
+
+(defcommand make-next-group-command () ()
+  (make-next-group))
+
 (defcommand volume-add-command () ()
   (adjust-volume "+1"))
 
@@ -196,6 +214,7 @@
 (define-key *top-map* (kbd "s-)") "volume-add-command")
 (define-key *top-map* (kbd "s-(") "volume-sub-command")
 (define-key *top-map* (kbd "s-*") "volume-command")
+(define-key *top-map* (kbd "s-G") "make-next-group-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (make-custom-key htop "termite -e htop" *top-map* "s-p")
