@@ -203,6 +203,7 @@
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
+(define-key *top-map* (kbd "s-f") "fullscreen")
 (define-key *top-map* (kbd "s-+") "caang-add-command")
 (define-key *top-map* (kbd "s--") "caang-sub-command")
 (define-key *top-map* (kbd "s-=") "caang-command")
