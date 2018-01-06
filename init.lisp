@@ -180,7 +180,7 @@
     (current-screen))))
 
 (defun make-next-group ()
-  (let ((group-count (group-length)))
+  (let ((group-count (+ 1 (group-length)) ))
     (if (<= group-count 10)
         (progn
           (gnew (write-to-string group-count))
