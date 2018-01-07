@@ -184,7 +184,10 @@
     (if (<= group-count 10)
         (progn
           (gnew (write-to-string group-count))
-          (message "new group created")) 
+          (message (concatenate 'string
+                                "group number "
+                                (write-to-string group-count) 
+                                " created"))) 
         (message "group reach max number"))))
 
 (defcommand make-next-group-command () ()
