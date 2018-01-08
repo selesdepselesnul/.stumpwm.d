@@ -13,8 +13,6 @@
 
 (setq *startup-message* "Welcome, are you ready to code ?")
 
-
-
 (defun trim-total (str &optional (replacer ""))
   (cl-ppcre:regex-replace-all "\\s"
                               str
@@ -148,23 +146,27 @@
 (defun ask-sudo-password ()
   (read-one-line (current-screen) "fill the password : " :password t))
 
+(defvar *password-temp-path* "/tmp/stumpwm_password")
+
 (defun adjust-caang (caang)
   (if (probe-file
        (make-pathname :directory
                       '(:absolute "")
                       :name
-                      "/tmp/stumpwm_password"))
+                      *password-temp-path*))
       (str:trim (stumpwm:run-shell-command
                  (concatenate 'string
                               "sudo -S caang "
                               caang
-                              " < /tmp/stumpwm_password")
+                              " < "
+                              *password-temp-path*)
                  t))
       (stumpwm:run-shell-command
        (concatenate 'string
                     "echo "
                     (ask-sudo-password)
-                    " > /tmp/stumpwm_password")
+                    " > "
+                    *password-temp-path*)
        t)))
 
 (defun adjust-volume (vol)
