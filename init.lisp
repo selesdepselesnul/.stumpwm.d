@@ -121,15 +121,6 @@
             " | " '(:eval (check-brigthness))
             " | " '(:eval (check-vol))))
 
-(defun newline-if-max (str max-length)
-  (labels ((func (str1 str2)
-             (if (> (length str2) max-length)
-                 (func
-                  (concatenate 'string str1 (subseq str2 0 max-length) "~%")
-                  (subseq str2 max-length))
-                 (concatenate 'string str1 str2))))
-    (func "" str)))
-
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
      (if (functionp ,command-exp)
@@ -137,8 +128,6 @@
          (defcommand ,command-name () ()
            (run-or-raise ,command-exp '(:class ,(string command-name))))) 
      (define-key ,map (kbd ,key) ,(string command-name))))
-
-
 
 (defun ask-sudo-password ()
   (read-one-line (current-screen) "fill the password : " :password t))
