@@ -138,29 +138,20 @@
            (run-or-raise ,command-exp '(:class ,(string command-name))))) 
      (define-key ,map (kbd ,key) ,(string command-name))))
 
-(defcommand caang-command (caang)
-    ((:string "Enter brigthness: "))
-  (run-or-raise (concatenate 'string "termite -e 'sudo -S caang " caang "'")
-                '(:class "brigthness-command")))
+
 
 (defun ask-sudo-password ()
   (read-one-line (current-screen) "fill the password : " :password t))
 
 (defvar *password-temp-path* "/tmp/stumpwm_password")
 
-(defun adjust-caang (caang)
+(defun do-with-sudo (func)
   (if (probe-file
        (make-pathname :directory
                       '(:absolute "")
                       :name
                       *password-temp-path*))
-      (str:trim (stumpwm:run-shell-command
-                 (concatenate 'string
-                              "sudo -S caang "
-                              caang
-                              " < "
-                              *password-temp-path*)
-                 t))
+      (funcall func *password-temp-path*)
       (stumpwm:run-shell-command
        (concatenate 'string
                     "echo "
@@ -168,6 +159,29 @@
                     " > "
                     *password-temp-path*)
        t)))
+
+(defun adjust-caang (caang)
+  (do-with-sudo
+      #'(lambda (x) (str:trim
+                (stumpwm:run-shell-command
+                 (concatenate 'string
+                              "sudo -S caang "
+                              caang
+                              " < "
+                              x)
+                 t)))))
+
+(defcommand caang-command (caang)
+    ((:string "Enter brigthness: "))
+  (do-with-sudo
+      #'(lambda (x) (str:trim
+                (stumpwm:run-shell-command
+                 (concatenate 'string
+                              "sudo -S caang "
+                              caang
+                              " < "
+                              x)
+                 t)))))
 
 (defun adjust-volume (vol)
   (str:trim (stumpwm:run-shell-command
@@ -236,5 +250,6 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
+
 
 
