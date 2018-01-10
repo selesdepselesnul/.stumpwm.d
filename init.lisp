@@ -132,22 +132,21 @@
 (defun ask-sudo-password ()
   (read-one-line (current-screen) "fill the password : " :password t))
 
-(defvar *password-temp-path* "/tmp/stumpwm_password")
-
 (defun do-with-sudo (func)
-  (if (probe-file
-       (make-pathname :directory
-                      '(:absolute "")
-                      :name
-                      *password-temp-path*))
-      (funcall func *password-temp-path*)
-      (stumpwm:run-shell-command
-       (concatenate 'string
-                    "echo "
-                    (ask-sudo-password)
-                    " > "
-                    *password-temp-path*)
-       t)))
+  (let ((password-temp-path "/tmp/stumpwm_password"))
+    (if (probe-file
+         (make-pathname :directory
+                        '(:absolute "")
+                        :name
+                        password-temp-path))
+        (funcall func password-temp-path)
+        (stumpwm:run-shell-command
+         (concatenate 'string
+                      "echo "
+                      (ask-sudo-password)
+                      " > "
+                      password-temp-path)
+         t))))
 
 (defun adjust-caang (caang)
   (do-with-sudo
