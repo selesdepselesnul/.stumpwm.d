@@ -159,6 +159,24 @@
                               x)
                  t)))))
 
+(defcommand poweroff-command () ()
+  (do-with-sudo
+      #'(lambda (x) (stumpwm:run-shell-command
+                (concatenate 'string
+                             "sudo -S systemctl poweroff "
+                             " < "
+                             x)
+                t))))
+
+(defcommand reboot-command () ()
+  (do-with-sudo
+      #'(lambda (x) (stumpwm:run-shell-command
+                (concatenate 'string
+                             "sudo -S systemctl reboot "
+                             " < "
+                             x)
+                t))))
+
 (defcommand caang-command (caang)
     ((:string "Enter brigthness: "))
   (do-with-sudo
@@ -222,6 +240,7 @@
 (define-key *top-map* (kbd "s-(") "volume-sub-command")
 (define-key *top-map* (kbd "s-*") "volume-command")
 (define-key *top-map* (kbd "s-G") "make-next-group-command")
+(define-key *top-map* (kbd "s-k") "poweroff-command")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (make-custom-key htop "termite -e htop" *top-map* "s-p")
@@ -231,13 +250,10 @@
 (make-custom-key vlc "vlc" *top-map* "s-v")
 (make-custom-key okular "okular" *top-map* "s-r")
 (make-custom-key spotify "spotify" *top-map* "s-m")
-(make-custom-key poweroff "termite -e 'sudo systemctl poweroff'" *top-map* "s-k")
-(make-custom-key reboot "termite -e 'sudo systemctl reboot'" *top-map* "s-b")
 (make-custom-key postman "postman" *top-map* "s-u")
 (make-custom-key google-chrome "google-chrome-stable" *top-map* "s-g")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
-
 
 
