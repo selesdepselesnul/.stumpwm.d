@@ -243,6 +243,7 @@
 (define-key *top-map* (kbd "s-*") "volume-command")
 (define-key *top-map* (kbd "s-G") "make-next-group-command")
 (define-key *top-map* (kbd "s-k") "poweroff-command")
+(define-key *top-map* (kbd "s-b") "reboot-command")
 (define-key *top-map* (kbd "s-q") "quit")
 (make-custom-key termite "termite" *root-map* "c")
 (make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
