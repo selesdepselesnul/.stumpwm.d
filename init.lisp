@@ -148,34 +148,36 @@
                       password-temp-path)
          t))))
 
+(defun run-sudo-shell-command (command password)
+  (stumpwm:run-shell-command
+   (concatenate 'string
+                "sudo -S "
+                command
+                " < "
+                password)
+   t))
+
 (defun adjust-caang (caang)
   (do-with-sudo
-      #'(lambda (x) (str:trim
-                (stumpwm:run-shell-command
-                 (concatenate 'string
-                              "sudo -S caang "
-                              caang
-                              " < "
-                              x)
-                 t)))))
-
-(defcommand poweroff-command () ()
-  (do-with-sudo
-      #'(lambda (x) (stumpwm:run-shell-command
+      #'(lambda (x) (run-sudo-shell-command
                 (concatenate 'string
-                             "sudo -S systemctl poweroff "
-                             " < "
-                             x)
-                t))))
+                             "caang "
+                             caang) 
+                x))))
 
-(defcommand reboot-command () ()
+(defcommand poweroff-command ()
+  ()
   (do-with-sudo
-      #'(lambda (x) (stumpwm:run-shell-command
-                (concatenate 'string
-                             "sudo -S systemctl reboot "
-                             " < "
-                             x)
-                t))))
+      #'(lambda (x) (run-sudo-shell-command
+                "systemctl poweroff "
+                x))))
+
+(defcommand reboot-command ()
+  ()
+  (do-with-sudo
+      #'(lambda (x) (run-sudo-shell-command
+                "systemctl reboot "
+                x))))
 
 (defcommand caang-command (caang)
     ((:string "Enter brigthness: "))
@@ -256,4 +258,3 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
-
