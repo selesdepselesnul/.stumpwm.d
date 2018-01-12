@@ -132,6 +132,10 @@
 (defun ask-sudo-password ()
   (read-one-line (current-screen) "fill the password : " :password t))
 
+(defun clear-sudo-password (password-path)
+  (with-open-file (s password-path)
+    (delete-file s)))
+
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
     (if (probe-file
@@ -139,7 +143,9 @@
                         '(:absolute "")
                         :name
                         password-temp-path))
-        (funcall func password-temp-path)
+        (when (string= "" (funcall func password-temp-path))
+          (clear-sudo-password password-temp-path)
+          (message "password doesnt valid")) 
         (stumpwm:run-shell-command
          (concatenate 'string
                       "echo "
