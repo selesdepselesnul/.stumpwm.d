@@ -138,21 +138,21 @@
 
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
-    (if (probe-file
-         (make-pathname :directory
-                        '(:absolute "")
-                        :name
-                        password-temp-path))
-        (when (string= "" (funcall func password-temp-path))
-          (clear-sudo-password password-temp-path)
-          (message "password doesnt valid")) 
-        (stumpwm:run-shell-command
-         (concatenate 'string
-                      "echo "
-                      (ask-sudo-password)
-                      " > "
-                      password-temp-path)
-         t))))
+    (unless (probe-file
+             (make-pathname :directory
+                            '(:absolute "")
+                            :name
+                            password-temp-path))
+      (stumpwm:run-shell-command
+       (concatenate 'string
+                    "echo "
+                    (ask-sudo-password)
+                    " > "
+                    password-temp-path)
+       t))
+    (when (string= "" (funcall func password-temp-path))
+      (clear-sudo-password password-temp-path)
+      (do-with-sudo func))))
 
 (defun run-sudo-shell-command (command password)
   (stumpwm:run-shell-command
