@@ -150,9 +150,12 @@
                     " > "
                     password-temp-path)
        t))
-    (when (string= "" (funcall func password-temp-path))
-      (clear-sudo-password password-temp-path)
-      (do-with-sudo func))))
+    (let ((ret-val (funcall func password-temp-path)))
+      (if (string= "" ret-val)
+          (progn
+            (clear-sudo-password password-temp-path)
+            (do-with-sudo func))
+          (message ret-val)))))
 
 (defun run-sudo-shell-command (command password)
   (stumpwm:run-shell-command
