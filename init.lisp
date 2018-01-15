@@ -255,6 +255,19 @@ to the current group."
           (message "Deleted")) 
         (message "There's only one group left"))))
 
+;; define-key fnew 
+(defun define-gnew (i)
+  (let* ((x-str (write-to-string i))
+         (key (concatenate 'string "s-" x-str))
+         (command (concatenate 'string "gnew " x-str)))
+    (define-key *top-map* (kbd key) command)))
+
+(defun range (start end)
+  (loop for i from start below end collect i))
+
+(dolist (x (range 1 10))
+  (define-gnew x))
+
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
 (define-key *top-map* (kbd "s-+") "caang-add-command")
