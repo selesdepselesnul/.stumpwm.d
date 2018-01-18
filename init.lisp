@@ -242,19 +242,6 @@
 (defcommand caang-sub-command () ()
   (adjust-caang "-1"))
 
-(defcommand gkill-other () ()
-  "Kill other groups. All windows in other groups are migrated
-to the current group."
-  (let* ((current-group (current-group))
-         (groups (remove-if (lambda (g) (eq g current-group))
-                            (screen-groups (current-screen)))))
-    (if (> (length groups) 0)
-        (progn
-          (dolist (dead-group groups)
-            (kill-group dead-group current-group))
-          (message "Deleted")) 
-        (message "There's only one group left"))))
-
 ;; define-key fnew 
 (defun define-gnew (i)
   (let* ((x-str (write-to-string i))
