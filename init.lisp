@@ -242,6 +242,11 @@
 (defcommand caang-sub-command () ()
   (adjust-caang "-1"))
 
+(defcommand kill-windows () ()
+  "Kill all windows in the current group."
+  (dolist (window (group-windows (current-group)))
+    (xwin-kill (window-xwin window))))
+
 ;; define-key fnew 
 (defun define-gnew (i)
   (let* ((x-str (write-to-string i))
