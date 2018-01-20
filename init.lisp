@@ -259,6 +259,18 @@
 
 (defcommand kill-windows-any-group (in-group) ((:group "In Group: "))
   (kill-windows-in-group in-group))
+
+;; group
+(defcommand gkill-other-with-windows () ()
+"Kill other groups and all of its windows."
+  (let ((groups (remove (current-group)
+                        (screen-groups (current-screen)))))
+    (dolist (dead-group groups)
+      (let ((screen (group-screen dead-group)))
+        (setf (screen-groups screen) (remove dead-group (screen-groups screen)))
+        (netwm-update-groups screen)
+        (netwm-set-group-properties screen)))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom-key
