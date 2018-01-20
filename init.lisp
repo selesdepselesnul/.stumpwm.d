@@ -242,18 +242,16 @@
 (defcommand caang-sub-command () ()
   (adjust-caang "-1"))
 
-;; define-key fnew 
-(defun define-gnew (i)
-  (let* ((x-str (write-to-string i))
-         (key (concatenate 'string "s-" x-str))
-         (command (concatenate 'string "gnew " x-str)))
-    (define-key *top-map* (kbd key) command)))
+;; remove it when it's merged in upstream
+(defcommand kill-windows-other-groups () ()
+  "kill all windows in all groups except the current group."
+  (let ((target-groups (remove (current-group)
+                               (screen-groups
+                                 (current-screen)))))
+    (dolist (group target-groups)
+      (kill-windows-in-group group))))
 
-(defun range (start end)
-  (loop for i from start below end collect i))
-
-(dolist (x (range 1 10))
-  (define-gnew x))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
