@@ -281,8 +281,8 @@
   (when-let* ((current-group (current-group))
               (groups (screen-groups (current-screen)))
               ;; If no "visible" group is found, try with all groups
-              (to-group (or (next-group current-group (non-hidden-groups groups))
-                            (next-group current-group groups))))
+              (_ (or (next-group current-group (non-hidden-groups groups))
+                     (next-group current-group groups))))
     (kill-group-with-windows current-group)
     (group-forward current-group
                    (sort-groups (current-screen)))))
