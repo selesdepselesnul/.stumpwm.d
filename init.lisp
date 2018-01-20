@@ -242,14 +242,20 @@
 (defcommand caang-sub-command () ()
   (adjust-caang "-1"))
 
-;; remove it when it's merged in upstream
+;; remove it when it's merged in upstream ;;;;;;;;;;;;;
 (defcommand kill-windows-other-groups () ()
-  "kill all windows in all groups except the current group."
+  "Kill all windows in all groups except the current group."
   (let ((target-groups (remove (current-group)
                                (screen-groups
                                  (current-screen)))))
     (dolist (group target-groups)
       (kill-windows-in-group group))))
+
+(defcommand kill-windows-other () ()
+  "Kill all windows in current group except the current-window"
+  (let ((target-windows (remove (current-window)
+                                (group-windows (current-group)))))
+    (kill-windows target-windows)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
