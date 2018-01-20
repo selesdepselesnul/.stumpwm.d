@@ -257,6 +257,8 @@
                                 (group-windows (current-group)))))
     (kill-windows target-windows)))
 
+(defcommand kill-windows-any-group (in-group) ((:group "In Group: "))
+  (kill-windows-in-group in-group))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom-key
