@@ -278,13 +278,13 @@
         (netwm-set-group-properties screen)))))
 
 (defcommand gkill-with-windows () ()
-  (when-let* ((dead-group (current-group))
+  (when-let* ((current-group (current-group))
               (groups (screen-groups (current-screen)))
               ;; If no "visible" group is found, try with all groups
-              (to-group (or (next-group dead-group (non-hidden-groups groups))
-                            (next-group dead-group groups))))
-    (kill-group-with-windows (current-group))
-    (group-forward (current-group)
+              (to-group (or (next-group current-group (non-hidden-groups groups))
+                            (next-group current-group groups))))
+    (kill-group-with-windows current-group)
+    (group-forward current-group
                    (sort-groups (current-screen)))))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
