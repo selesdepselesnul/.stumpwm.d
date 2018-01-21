@@ -272,20 +272,19 @@
   (let ((groups (remove (current-group)
                         (screen-groups (current-screen)))))
     (dolist (dead-group groups)
-      (let ((screen (group-screen dead-group)))
-        (setf (screen-groups screen) (remove dead-group (screen-groups screen)))
-        (netwm-update-groups screen)
-        (netwm-set-group-properties screen)))))
+      (kill-group-with-windows dead-group))))
 
 (defcommand gkill-with-windows () ()
-  (when-let* ((current-group (current-group))
-              (groups (screen-groups (current-screen)))
+"Kill current group and all of its windows."
+  (when-let* ((current-screen (current-screen)) 
+              (current-group (current-group))
+              (groups (screen-groups current-screen))
               ;; If no "visible" group is found, try with all groups
-              (_ (or (next-group current-group (non-hidden-groups groups))
-                     (next-group current-group groups))))
-    (kill-group-with-windows current-group)
-    (group-forward current-group
-                   (sort-groups (current-screen)))))
+              (to-group
+                (or (next-group current-group (non-hidden-groups groups))
+                    (next-group current-group groups))))
+    (switch-to-group to-group)
+    (kill-group-with-windows current-group)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom-key
