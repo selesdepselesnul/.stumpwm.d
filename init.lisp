@@ -276,14 +276,13 @@
 
 (defcommand gkill-with-windows () ()
 "Kill current group and all of its windows."
-  (when-let* ((current-screen (current-screen)) 
-              (current-group (current-group))
-              (groups (screen-groups current-screen))
+  (when-let* ((current-group (current-group))
+              (groups (screen-groups (current-screen)))
               ;; If no "visible" group is found, try with all groups
-              (to-group
+              (next-group
                 (or (next-group current-group (non-hidden-groups groups))
                     (next-group current-group groups))))
-    (switch-to-group to-group)
+    (switch-to-group next-group)
     (kill-group-with-windows current-group)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
