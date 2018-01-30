@@ -242,8 +242,8 @@
 (defcommand caang-sub-command () ()
   (adjust-caang "-1"))
 
-;; remove it when it's merged in upstream ;;;;;;;;;;;;;
-(defcommand kill-windows-other-groups () ()
+;; windows
+(defcommand selesdepselesnul/kill-windows-other-groups () ()
   "Kill all windows in all groups except the current group."
   (let ((target-groups (remove (current-group)
                                (screen-groups
@@ -251,13 +251,13 @@
     (dolist (group target-groups)
       (kill-windows-in-group group))))
 
-(defcommand kill-windows-other () ()
+(defcommand selesdepselesnul/kill-windows-other () ()
   "Kill all windows in current group except the current-window"
   (let ((target-windows (remove (current-window)
                                 (group-windows (current-group)))))
     (kill-windows target-windows)))
 
-(defcommand kill-windows-any-group (in-group) ((:group "In Group: "))
+(defcommand selesdepselesnul/kill-windows-any-group (in-group) ((:group "In Group: "))
   (kill-windows-in-group in-group))
 
 ;; group
@@ -267,15 +267,15 @@
     (netwm-update-groups screen)
     (netwm-set-group-properties screen)))
 
-(defcommand gkill-other-with-windows () ()
-"Kill other groups and all of its windows."
+(defcommand selesdepselesnul/gkill-other-with-windows () ()
+  "Kill other groups and all of its windows."
   (let ((groups (remove (current-group)
                         (screen-groups (current-screen)))))
     (dolist (dead-group groups)
       (kill-group-with-windows dead-group))))
 
-(defcommand gkill-with-windows () ()
-"Kill current group and all of its windows."
+(defcommand selesdepselesnul/gkill-with-windows () ()
+  "Kill current group and all of its windows."
   (when-let* ((current-group (current-group))
               (groups (screen-groups (current-screen)))
               ;; If no "visible" group is found, try with all groups
@@ -284,7 +284,6 @@
                     (next-group current-group groups))))
     (switch-to-group next-group)
     (kill-group-with-windows current-group)))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
