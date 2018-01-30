@@ -133,7 +133,10 @@
      (define-key ,map (kbd ,key) ,(string command-name))))
 
 (defun ask-sudo-password ()
-  (read-one-line (current-screen) "fill the password : " :password t))
+  (read-one-line (current-screen)
+                 "fill the password : "
+                 :password
+                 t))
 
 (defun clear-sudo-password (password-path)
   (with-open-file (s password-path)
