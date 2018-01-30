@@ -101,10 +101,13 @@
                (trim-total (stumpwm:run-shell-command "caang" t))))
 
 (setf *mode-line-background-color*
-      "white")
+      "black")
+
+(setf *mode-line-border-color*
+      "grey")
 
 (setf *mode-line-foreground-color*
-      "black")
+      "white")
 
 (setf *message-window-gravity*
       :center)
