@@ -174,21 +174,21 @@
                              caang) 
                 x))))
 
-(defcommand poweroff-command ()
+(defcommand selesdepselesnul/poweroff ()
   ()
   (do-with-sudo
       #'(lambda (x) (run-sudo-shell-command
                 "systemctl poweroff "
                 x))))
 
-(defcommand reboot-command ()
+(defcommand selesdepselesnul/reboot ()
   ()
   (do-with-sudo
       #'(lambda (x) (run-sudo-shell-command
                 "systemctl reboot "
                 x))))
 
-(defcommand caang-command (caang)
+(defcommand selesdepselesnul/caang (caang)
     ((:string "Enter brigthness: "))
   (do-with-sudo
       #'(lambda (x) (str:trim
@@ -207,39 +207,20 @@
                           vol)
              t)))
 
-(defun group-length () 
-  (length
-   (sort-groups
-    (current-screen))))
-
-(defun make-next-group ()
-  (let ((group-count (+ 1 (group-length)) ))
-    (if (<= group-count 10)
-        (progn
-          (gnew (write-to-string group-count))
-          (message (concatenate 'string
-                                "group number "
-                                (write-to-string group-count) 
-                                " created"))) 
-        (message "group reach max number"))))
-
-(defcommand make-next-group-command () ()
-  (make-next-group))
-
-(defcommand volume-add-command () ()
+(defcommand selesdepselesnul/volume-add () ()
   (adjust-volume "+1"))
 
-(defcommand volume-sub-command () ()
+(defcommand selesdepselesnul/volume-sub () ()
   (adjust-volume "-1"))
 
-(defcommand volume-command (volume)
+(defcommand selesdepselesnul/volume (volume)
     ((:string "Enter volume: "))
   (adjust-volume volume))
 
-(defcommand caang-add-command () ()
+(defcommand selesdepselesnul/caang-add () ()
   (adjust-caang "+1"))
 
-(defcommand caang-sub-command () ()
+(defcommand selesdepselesnul/caang-sub () ()
   (adjust-caang "-1"))
 
 ;; windows
@@ -287,27 +268,26 @@
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
-(define-key *top-map* (kbd "s-+") "caang-add-command")
-(define-key *top-map* (kbd "s--") "caang-sub-command")
-(define-key *top-map* (kbd "s-=") "caang-command")
-(define-key *top-map* (kbd "s-)") "volume-add-command")
-(define-key *top-map* (kbd "s-(") "volume-sub-command")
-(define-key *top-map* (kbd "s-*") "volume-command")
-(define-key *top-map* (kbd "s-G") "make-next-group-command")
-(define-key *top-map* (kbd "s-k") "poweroff-command")
-(define-key *top-map* (kbd "s-b") "reboot-command")
+(define-key *top-map* (kbd "s-+") "selesdepselesnul/caang-add")
+(define-key *top-map* (kbd "s--") "selesdepselesnul/caang-sub")
+(define-key *top-map* (kbd "s-=") "selesdepselesnul/caang")
+(define-key *top-map* (kbd "s-)") "selesdepselesnul/volume-add")
+(define-key *top-map* (kbd "s-(") "selesdepselesnul/volume-sub")
+(define-key *top-map* (kbd "s-*") "selesdepselesnul/volume")
+(define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
+(define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
 (define-key *top-map* (kbd "s-q") "quit")
-(make-custom-key termite "termite" *root-map* "c")
-(make-custom-key alsa-mixer "termite -e alsamixer" *top-map* "s-a")
-(make-custom-key htop "termite -e htop" *top-map* "s-p")
-(make-custom-key wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
-(make-custom-key vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
-(make-custom-key tor-browser "tor-browser" *top-map* "s-t")
-(make-custom-key vlc "vlc" *top-map* "s-v")
-(make-custom-key okular "okular" *top-map* "s-r")
-(make-custom-key spotify "spotify" *top-map* "s-m")
-(make-custom-key postman "postman" *top-map* "s-u")
-(make-custom-key google-chrome "google-chrome-stable" *top-map* "s-g")
+(make-custom-key selesdepselesnul/termite "termite" *root-map* "c")
+(make-custom-key selesdepselesnul/alsa-mixer "termite -e alsamixer" *top-map* "s-a")
+(make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
+(make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
+(make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
+(make-custom-key selesdepselesnul/tor-browser "tor-browser" *top-map* "s-t")
+(make-custom-key selesdepselesnul/vlc "vlc" *top-map* "s-v")
+(make-custom-key selesdepselesnul/okular "okular" *top-map* "s-r")
+(make-custom-key selesdepselesnul/spotify "spotify" *top-map* "s-m")
+(make-custom-key selesdepselesnul/postman "postman" *top-map* "s-u")
+(make-custom-key selesdepselesnul/google-chrome "google-chrome-stable" *top-map* "s-g")
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
