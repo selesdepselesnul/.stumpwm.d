@@ -35,8 +35,8 @@
    (concatenate 'string
                 "vol : "
                 (run-shell-command
-                 "atur-polum --current")
-                t)))
+                 "atur-polum --current"
+                 t))))
 
 (defun disk-usage-command (device)
   (str:trim
@@ -120,6 +120,7 @@
             " | " '(:eval (check-connection))
             " | " '(:eval (check-brigthness))
             " | " '(:eval (check-vol))))
+
 
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
