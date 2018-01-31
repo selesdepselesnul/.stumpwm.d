@@ -1,9 +1,6 @@
 (in-package :stumpwm)
 (require :str)
 (require :cl-ppcre)
-(require :parse-float)
-(require :drakma)
-(require :yason)
 (require :swank)
 
 (swank-loader:init)
@@ -24,11 +21,11 @@
    (str:trim
     (concatenate 'string
                  "bat : "
-                 (stumpwm:run-shell-command
+                 (run-shell-command
                   "batu-lepie --capacity"
                   t)
                  "%, "
-                 (stumpwm:run-shell-command
+                 (run-shell-command
                   "batu-lepie --status"
                   t)))
    ""))
