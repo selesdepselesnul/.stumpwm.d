@@ -37,9 +37,9 @@
   (str:trim
    (concatenate 'string
                 "vol : "
-                (stumpwm:run-shell-command
-                 "atur-polum --current"
-                 t))))
+                (run-shell-command
+                 "atur-polum --current")
+                t)))
 
 (defun disk-usage-command (device)
   (str:trim
@@ -53,7 +53,7 @@
                (cl-ppcre:split "\\|"
                                (values
                                 (trim-total
-                                 (stumpwm:run-shell-command
+                                 (run-shell-command
                                   (disk-usage-command device)
                                   t)
                                  "|"))))))
@@ -82,7 +82,7 @@
             year)))
 
 (defun check-connection ()
-  (trim-total (stumpwm:run-shell-command
+  (trim-total (run-shell-command
                (concatenate 'string
                             "ping -q -w 1 -c 1 `ip r "
                             "| grep default"   
@@ -91,14 +91,14 @@
                t)))
 
 (defun check-uptime ()
-  (str:trim (stumpwm:run-shell-command
+  (str:trim (run-shell-command
              "uptime -p"
              t)))
 
 (defun check-brigthness ()
   (concatenate 'string
                "brigthness : "
-               (trim-total (stumpwm:run-shell-command "caang" t))))
+               (trim-total (run-shell-command "caang" t))))
 
 (setf *mode-line-background-color*
       "black")
@@ -149,7 +149,7 @@
                             '(:absolute "")
                             :name
                             password-temp-path))
-      (stumpwm:run-shell-command
+      (run-shell-command
        (concatenate 'string
                     "echo "
                     (ask-sudo-password)
@@ -164,7 +164,7 @@
           (message ret-val)))))
 
 (defun run-sudo-shell-command (command password)
-  (stumpwm:run-shell-command
+  (run-shell-command
    (concatenate 'string
                 "sudo -S "
                 command
@@ -198,7 +198,7 @@
     ((:string "Enter brigthness: "))
   (do-with-sudo
       #'(lambda (x) (str:trim
-                (stumpwm:run-shell-command
+                (run-shell-command
                  (concatenate 'string
                               "sudo -S caang "
                               caang
@@ -207,7 +207,7 @@
                  t)))))
 
 (defun adjust-volume (vol)
-  (str:trim (stumpwm:run-shell-command
+  (str:trim (run-shell-command
              (concatenate 'string
                           "atur-polum "
                           vol)
