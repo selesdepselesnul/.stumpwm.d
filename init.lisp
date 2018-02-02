@@ -121,7 +121,6 @@
             " | " '(:eval (check-brigthness))
             " | " '(:eval (check-vol))))
 
-
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
      (if (functionp ,command-exp)
@@ -282,7 +281,6 @@
 (define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
 (define-key *top-map* (kbd "s-q") "quit")
 (make-custom-key selesdepselesnul/termite "termite" *root-map* "c")
-(make-custom-key selesdepselesnul/alsa-mixer "termite -e alsamixer" *top-map* "s-a")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
 (make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
 (make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
