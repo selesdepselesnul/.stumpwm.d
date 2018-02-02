@@ -216,6 +216,12 @@
 (defcommand selesdepselesnul/volume-sub () ()
   (adjust-volume "-1"))
 
+(defcommand selesdepselesnul/volume-mute () ()
+  (adjust-volume "--set-min"))
+
+(defcommand selesdepselesnul/volume-max () ()
+  (adjust-volume "--set-max"))
+
 (defcommand selesdepselesnul/volume (volume)
     ((:string "Enter volume: "))
   (adjust-volume volume))
@@ -276,6 +282,8 @@
 (define-key *top-map* (kbd "s-=") "selesdepselesnul/caang")
 (define-key *top-map* (kbd "s-)") "selesdepselesnul/volume-add")
 (define-key *top-map* (kbd "s-(") "selesdepselesnul/volume-sub")
+(define-key *top-map* (kbd "s-@") "selesdepselesnul/volume-mute")
+(define-key *top-map* (kbd "s-$") "selesdepselesnul/volume-max")
 (define-key *top-map* (kbd "s-*") "selesdepselesnul/volume")
 (define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
 (define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
