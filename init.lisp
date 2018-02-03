@@ -282,7 +282,7 @@
 (define-key *top-map* (kbd "s-=") "selesdepselesnul/caang")
 (define-key *top-map* (kbd "s-)") "selesdepselesnul/volume-add")
 (define-key *top-map* (kbd "s-(") "selesdepselesnul/volume-sub")
-(define-key *top-map* (kbd "s-@") "selesdepselesnul/volume-mute")
+(define-key *top-map* (kbd "s-^") "selesdepselesnul/volume-mute")
 (define-key *top-map* (kbd "s-$") "selesdepselesnul/volume-max")
 (define-key *top-map* (kbd "s-*") "selesdepselesnul/volume")
 (define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
