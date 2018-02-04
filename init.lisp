@@ -238,6 +238,9 @@
 (defcommand selesdepselesnul/caang-set-max () ()
   (adjust-caang "--max"))
 
+(defcommand selesdepselesnul/caang-default () ()
+  (adjust-caang "--default"))
+
 ;; windows
 (defcommand selesdepselesnul/kill-windows-other-groups () ()
   "Kill all windows in all groups except the current group."
@@ -287,6 +290,7 @@
 (define-key *top-map* (kbd "s--") "selesdepselesnul/caang-sub")
 (define-key *top-map* (kbd "s-<") "selesdepselesnul/caang-set-min")
 (define-key *top-map* (kbd "s->") "selesdepselesnul/caang-set-max")
+(define-key *top-map* (kbd "s-#") "selesdepselesnul/caang-default")
 (define-key *top-map* (kbd "s-=") "selesdepselesnul/caang")
 (define-key *top-map* (kbd "s-)") "selesdepselesnul/volume-add")
 (define-key *top-map* (kbd "s-(") "selesdepselesnul/volume-sub")
