@@ -48,12 +48,11 @@
   (let ((disk (remove-if
                (lambda (x) (= 0 (length x)))
                (cl-ppcre:split "\\|"
-                               (values
-                                (trim-total
-                                 (run-shell-command
-                                  (disk-usage-command device)
-                                  t)
-                                 "|"))))))
+                               (trim-total
+                                (run-shell-command
+                                 (disk-usage-command device)
+                                 t)
+                                "|")))))
     (concatenate 'string
                  "total : "
                  (nth 1 disk)
