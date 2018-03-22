@@ -33,7 +33,7 @@
 (defun check-vol ()
   (str:trim
    (concatenate 'string
-                "vol : "
+                "volume : "
                 (run-shell-command
                  "atur-polum --current"
                  t))))
