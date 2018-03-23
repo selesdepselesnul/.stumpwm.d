@@ -8,6 +8,8 @@
                      :style swank:*communication-style*
                      :dont-close t)
 
+(emacs)
+
 (setq *startup-message* "Welcome, are you ready to code ?")
 
 (defun trim-total (str &optional (replacer ""))
