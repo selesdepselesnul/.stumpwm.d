@@ -32,6 +32,7 @@
                   t)))
    ""))
 
+
 (defun check-vol ()
   (str:trim
    (concatenate 'string
@@ -284,6 +285,9 @@
                     (next-group current-group groups))))
     (switch-to-group next-group)
     (kill-group-with-windows current-group)))
+
+(defcommand selesdepselesnul/battery-info () ()
+  (message (read-bat)))
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
