@@ -94,11 +94,6 @@
              "uptime -p"
              t)))
 
-(defun check-brigthness ()
-  (concatenate 'string
-               "brigthness : "
-               (trim-total (run-shell-command "caang" t))))
-
 (setf *mode-line-background-color*
       "black")
 
@@ -119,9 +114,7 @@
             " | " '(:eval (read-bat))
             " | " '(:eval (disk-usage "/dev/sda3"))
             " | " '(:eval (check-uptime))
-            " | " '(:eval (check-connection))
-            " | " '(:eval (check-brigthness))
-            " | " '(:eval (check-vol))))
+            " | " '(:eval (check-connection))))
 
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
@@ -171,14 +164,6 @@
                 password)
    t))
 
-(defun adjust-caang (caang)
-  (do-with-sudo
-      #'(lambda (x) (run-sudo-shell-command
-                (concatenate 'string
-                             "caang "
-                             caang) 
-                x))))
-
 (defcommand selesdepselesnul/poweroff ()
   ()
   (do-with-sudo
@@ -192,56 +177,6 @@
       #'(lambda (x) (run-sudo-shell-command
                 "systemctl reboot "
                 x))))
-
-(defcommand selesdepselesnul/caang (caang)
-    ((:string "Enter brigthness: "))
-  (do-with-sudo
-      #'(lambda (x) (str:trim
-                (run-shell-command
-                 (concatenate 'string
-                              "sudo -S caang "
-                              caang
-                              " < "
-                              x)
-                 t)))))
-
-(defun adjust-volume (vol)
-  (str:trim (run-shell-command
-             (concatenate 'string
-                          "atur-polum "
-                          vol)
-             t)))
-
-(defcommand selesdepselesnul/volume-add () ()
-  (adjust-volume "+1"))
-
-(defcommand selesdepselesnul/volume-sub () ()
-  (adjust-volume "-1"))
-
-(defcommand selesdepselesnul/volume-mute () ()
-  (adjust-volume "--set-min"))
-
-(defcommand selesdepselesnul/volume-max () ()
-  (adjust-volume "--set-max"))
-
-(defcommand selesdepselesnul/volume (volume)
-    ((:string "Enter volume: "))
-  (adjust-volume volume))
-
-(defcommand selesdepselesnul/caang-add () ()
-  (adjust-caang "+1"))
-
-(defcommand selesdepselesnul/caang-sub () ()
-  (adjust-caang "-1"))
-
-(defcommand selesdepselesnul/caang-set-min () ()
-  (adjust-caang "--min"))
-
-(defcommand selesdepselesnul/caang-set-max () ()
-  (adjust-caang "--max"))
-
-(defcommand selesdepselesnul/caang-default () ()
-  (adjust-caang "--default"))
 
 ;; windows
 (defcommand selesdepselesnul/kill-windows-other-groups () ()
@@ -291,17 +226,6 @@
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
-(define-key *top-map* (kbd "s-+") "selesdepselesnul/caang-add")
-(define-key *top-map* (kbd "s--") "selesdepselesnul/caang-sub")
-(define-key *top-map* (kbd "s-<") "selesdepselesnul/caang-set-min")
-(define-key *top-map* (kbd "s->") "selesdepselesnul/caang-set-max")
-(define-key *top-map* (kbd "s-#") "selesdepselesnul/caang-default")
-(define-key *top-map* (kbd "s-=") "selesdepselesnul/caang")
-(define-key *top-map* (kbd "s-)") "selesdepselesnul/volume-add")
-(define-key *top-map* (kbd "s-(") "selesdepselesnul/volume-sub")
-(define-key *top-map* (kbd "s-^") "selesdepselesnul/volume-mute")
-(define-key *top-map* (kbd "s-$") "selesdepselesnul/volume-max")
-(define-key *top-map* (kbd "s-*") "selesdepselesnul/volume")
 (define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
 (define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
 (define-key *top-map* (kbd "s-q") "quit")
