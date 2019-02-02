@@ -8,8 +8,6 @@
                      :style swank:*communication-style*
                      :dont-close t)
 
-(emacs)
-
 (setq *startup-message* "Welcome, are you ready to code ?")
 
 (defun trim-total (str &optional (replacer ""))
@@ -113,8 +111,7 @@
       (list "" '(:eval (date-time))
             " | " '(:eval (read-bat))
             " | " '(:eval (disk-usage "/dev/sda3"))
-            " | " '(:eval (check-uptime))
-            " | " '(:eval (check-connection))))
+            " | " '(:eval (check-uptime))))
 
 (defmacro make-custom-key (command-name command-exp map key)
   `(progn
