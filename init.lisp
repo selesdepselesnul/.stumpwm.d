@@ -131,6 +131,7 @@
   (with-open-file (s password-path)
     (delete-file s)))
 
+;;;; xinput
 (defun run-xinput (option)
   (let ((x-input-command (concatenate
                          'string
@@ -149,7 +150,11 @@
       (run-xinput "enable")
       (run-xinput "disable")))
 
+;;;;xinput --list-props 17 | grep -E 'Device Enabled' | cut -d : -f 2
+
 (enable-keyboard-and-touchpad nil)
+;;;;;;;;;;;;;;;;;;
+ 	
 
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
