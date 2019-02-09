@@ -132,23 +132,20 @@
     (delete-file s)))
 
 ;;;; xinput
-(defun run-xinput (option)
+(defun run-xinput (option device-id)
   (let ((x-input-command (concatenate
                          'string
                           "xinput "
                           "--"
                           option
-                          " 16;"
-                          "xinput "
-                          "--"
-                          option
-                          " 17")))  
+                          " "
+                          (write-to-string device-id))))  
        (run-shell-command x-input-command)))
 
-(defun enable-keyboard-and-touchpad (is-enable)
+(defun enable-keyboard-and-touchpad (is-enable device-id)
   (if is-enable
-      (run-xinput "enable")
-      (run-xinput "disable")))
+      (run-xinput "enable" device-id)
+      (run-xinput "disable" device-id)))
 
 (defun check-device-status-raw (device-id)
   (let ((result
@@ -171,8 +168,8 @@
   (let ((raw-status (check-device-status-raw device-id)))
     (string= "1" raw-status)))
 
-;;(check-device-status 17)
-;;(enable-keyboard-and-touchpad nil)
+;;(check-device-status 16)
+;;(enable-keyboard-and-touchpad nil 17)
 ;;;;
  	
 (defun do-with-sudo (func)
