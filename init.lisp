@@ -131,8 +131,25 @@
   (with-open-file (s password-path)
     (delete-file s)))
 
-(defun disable-internal-keyboard-and-touchpad ()
-  (run-shell-command "xinput --disable 16; xinput --disable 17" t))
+(defun run-xinput (option)
+  (let ((x-input-command (concatenate
+                         'string
+                          "xinput "
+                          "--"
+                          option
+                          " 16;"
+                          "xinput "
+                          "--"
+                          option
+                          " 17")))  
+       (run-shell-command x-input-command)))
+
+(defun enable-keyboard-and-touchpad (is-enable)
+  (if is-enable
+      (run-xinput "enable")
+      (run-xinput "disable")))
+
+(enable-keyboard-and-touchpad nil)
 
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
