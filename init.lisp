@@ -142,7 +142,7 @@
                           (write-to-string device-id))))  
        (run-shell-command x-input-command)))
 
-(defun enable-keyboard-and-touchpad (is-enable device-id)
+(defun enable-device (is-enable device-id)
   (if is-enable
       (run-xinput "enable" device-id)
       (run-xinput "disable" device-id)))
@@ -175,16 +175,14 @@
           #'(lambda (x) (check-device-status x)) 
           '(16 17))))
 
-;; (enable-keyboard-and-touchpad nil 16)
-;; (enable-keyboard-and-touchpad nil 17)
-;; (map nil (lam) seq)
+(defun enable-keyboard-and-touchpad (enable)
+  (mapcar #'(lambda (x) (enable-device enable x)) '(16 17)))
 
-;; (defcommand selesdepselesnul/enable-keyboard-and-touchpad () ()
-;;   (let ((is-keyboard-and-touchpad-enabled  (is-keyboard-and-touchpad-enabled)))
-    
-;;     ))
-;;(check-device-status 16)
-;;(enable-keyboard-and-touchpad nil 17)
+(defcommand selesdepselesnul/enable-keyboard-and-touchpad () ()
+  (let ((is-keyboard-and-touchpad-enabled  (is-keyboard-and-touchpad-enabled)))
+    (if is-keyboard-and-touchpad-enabled
+        (enable-keyboard-and-touchpad nil)
+        (enable-keyboard-and-touchpad t))))
 ;;;;
  	
 (defun do-with-sudo (func)
