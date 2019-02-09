@@ -150,7 +150,19 @@
       (run-xinput "enable")
       (run-xinput "disable")))
 
-;;;;xinput --list-props 17 | grep -E 'Device Enabled' | cut -d : -f 2
+(defun check-device-status (device-id)
+  (run-shell-command
+   (concatenate
+    'string
+    "xinput --list-props "
+    (write-to-string device-id) 
+    " "
+    " | grep -E 'Device Enabled'"
+    " | cut -d : -f 2 |"
+    "tr -d '\t\r\n'")
+   t))
+;;(check-device-status 17)
+;;;;xinput --list-props 17 | grep -E 'Device Enabled' | cut -d : -f 2 | tr -d " \t\r" 
 
 (enable-keyboard-and-touchpad nil)
 ;;;;;;;;;;;;;;;;;;
