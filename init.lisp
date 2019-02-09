@@ -151,16 +151,23 @@
       (run-xinput "disable")))
 
 (defun check-device-status (device-id)
-  (run-shell-command
-   (concatenate
-    'string
-    "xinput --list-props "
-    (write-to-string device-id) 
-    " "
-    " | grep -E 'Device Enabled'"
-    " | cut -d : -f 2 |"
-    "tr -d '\t\r\n'")
-   t))
+  (let ((result
+         (run-shell-command
+          (concatenate
+           'string
+           "xinput --list-props "
+           (write-to-string device-id) 
+           " "
+           " | grep -E 'Device Enabled'"
+           " | cut -d : -f 2 |"
+           "tr -d '\t\r\n'")
+          t)))
+    (string-trim 
+      '(#\Space #\Newline #\Backspace #\Tab 
+        #\Linefeed #\Page #\Return #\Rubout)
+      result)))
+
+;;(check-device-status 17)
 ;;(check-device-status 17)
 ;;;;xinput --list-props 17 | grep -E 'Device Enabled' | cut -d : -f 2 | tr -d " \t\r" 
 
