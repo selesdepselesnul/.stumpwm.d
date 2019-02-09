@@ -168,6 +168,21 @@
   (let ((raw-status (check-device-status-raw device-id)))
     (string= "1" raw-status)))
 
+(defun is-keyboard-and-touchpad-enabled ()
+  (every #'identity
+         (map
+          'list
+          #'(lambda (x) (check-device-status x)) 
+          '(16 17))))
+
+;; (enable-keyboard-and-touchpad nil 16)
+;; (enable-keyboard-and-touchpad nil 17)
+;; (map nil (lam) seq)
+
+;; (defcommand selesdepselesnul/enable-keyboard-and-touchpad () ()
+;;   (let ((is-keyboard-and-touchpad-enabled  (is-keyboard-and-touchpad-enabled)))
+    
+;;     ))
 ;;(check-device-status 16)
 ;;(enable-keyboard-and-touchpad nil 17)
 ;;;;
