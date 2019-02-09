@@ -150,7 +150,7 @@
       (run-xinput "enable")
       (run-xinput "disable")))
 
-(defun check-device-status (device-id)
+(defun check-device-status-raw (device-id)
   (let ((result
          (run-shell-command
           (concatenate
@@ -167,14 +167,14 @@
         #\Linefeed #\Page #\Return #\Rubout)
       result)))
 
-;;(check-device-status 17)
-;;(check-device-status 17)
-;;;;xinput --list-props 17 | grep -E 'Device Enabled' | cut -d : -f 2 | tr -d " \t\r" 
+(defun check-device-status (device-id)
+  (let ((raw-status (check-device-status-raw device-id)))
+    (string= "1" raw-status)))
 
-(enable-keyboard-and-touchpad nil)
-;;;;;;;;;;;;;;;;;;
+;;(check-device-status 17)
+;;(enable-keyboard-and-touchpad nil)
+;;;;
  	
-
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
     (unless (probe-file
