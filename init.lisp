@@ -181,8 +181,12 @@
 (defcommand selesdepselesnul/enable-keyboard-and-touchpad () ()
   (let ((is-keyboard-and-touchpad-enabled  (is-keyboard-and-touchpad-enabled)))
     (if is-keyboard-and-touchpad-enabled
-        (enable-keyboard-and-touchpad nil)
-        (enable-keyboard-and-touchpad t))))
+        (progn
+          (enable-keyboard-and-touchpad nil)
+          (message "disable internal keyboard and touchpad"))
+        (progn
+          (enable-keyboard-and-touchpad t)
+          (message "enable internal keyboard and touchpad")))))
 ;;;;
  	
 (defun do-with-sudo (func)
