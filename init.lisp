@@ -31,11 +31,12 @@
 
 
 (defun disk-usage ()
-  (str:trim (run-shell-command "df -h | grep -E 'sda1' " t)))
+  (concatenate 'string
+	       "disk : "
+	       (str:trim (run-shell-command "df -h | grep -E 'sda1' " t))))
 
 (defun disk-usage-command ()
   (disk-usage))
-
 
 (defconstant +day-names+
   '("Monday" "Tuesday" "Wednesday"
