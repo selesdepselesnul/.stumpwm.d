@@ -29,26 +29,13 @@
                  "atur-polum --current"
                  t))))
 
-(defun disk-usage-command (device)
-  (str:trim
-   (concatenate 'string
-                "df -h | grep -E "
-                device)))
 
-(defun disk-usage (device)
-  (let ((disk (remove-if
-               (lambda (x) (= 0 (length x)))
-               (cl-ppcre:split "\\|"
-                               (trim-total
-                                (run-shell-command
-                                 (disk-usage-command device)
-                                 t)
-                                "|")))))
-    (concatenate 'string
-                 "total : "
-                 (nth 1 disk)
-                 ", used : "
-                 (nth 2 disk))))
+(defun disk-usage ()
+  (str:trim (run-shell-command "df -h | grep -E 'sda1' " t)))
+
+(defun disk-usage-command ()
+  (disk-usage))
+
 
 (defconstant +day-names+
   '("Monday" "Tuesday" "Wednesday"
@@ -100,7 +87,7 @@
 (setf *screen-mode-line-format*
       (list "" '(:eval (date-time))
             " | " '(:eval (read-bat))
-            " | " '(:eval (disk-usage "/dev/sda3"))
+            " | " '(:eval (disk-usage))
             " | " '(:eval (check-uptime))))
 
 (defmacro make-custom-key (command-name command-exp map key)
