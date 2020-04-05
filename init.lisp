@@ -16,20 +16,10 @@
                               replacer))
 
 (defun read-bat ()
-  (cl-ppcre:regex-replace-all
-   "\\n"
-   (str:trim
-    (concatenate 'string
-                 "bat : "
-                 (run-shell-command
-                  "batu-lepie --capacity"
-                  t)
-                 "%, "
-                 (run-shell-command
-                  "batu-lepie --status"
-                  t)))
-   ""))
-
+  (concatenate 'string
+	       "battery : "
+	       (first (uiop:read-file-lines "/sys/class/power_supply/BAT1/capacity"))
+	       "%"))
 
 (defun check-vol ()
   (str:trim
