@@ -269,10 +269,8 @@
 (make-custom-key selesdepselesnul/tor-browser "tor-browser" *top-map* "s-t")
 (make-custom-key selesdepselesnul/vlc "vlc" *top-map* "s-v")
 (make-custom-key selesdepselesnul/okular "okular" *top-map* "s-r")
-(make-custom-key selesdepselesnul/spotify "spotify" *top-map* "s-m")
 (make-custom-key selesdepselesnul/postman "postman" *top-map* "s-u")
-(make-custom-key selesdepselesnul/google-chrome "google-chrome-stable" *top-map* "s-g")
-(make-custom-key selesdepselesnul/virtualbox "virtualbox" *top-map* "s-x")
+(make-custom-key selesdepselesnul/brave "brave" *top-map* "s-b")
 (make-custom-key selesdepselesnul/thunar "thunar" *top-map* "s-f")
 
 ;; turn on/off the mode line for the current head only.
