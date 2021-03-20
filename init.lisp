@@ -23,12 +23,19 @@
 
 (defparameter *battery-file* "/sys/class/power_supply/BAT0")
 
-(defun read-bat ()
+(defun read-bat-info (label type suffix)
   (concatenate 'string
-	       "battery : "
+           label
 	       (first (uiop:read-file-lines
-                   (concatenate 'string *battery-file* "/capacity")))
-	       "%"))
+                   (concatenate 'string *battery-file* "/" type)))
+	       suffix))
+
+
+(defun read-bat-capacity ()
+  (read-bat-info "battery capacity : " "capacity" "%"))
+
+(defun read-bat-status ()
+  (read-bat-info "battery status : " "status" ""))
 
 (defun check-vol ()
   (str:trim
@@ -37,7 +44,6 @@
                 (run-shell-command
                  "atur-polum --current"
                  t))))
-
 
 (defun disk-usage ()
   (concatenate 'string
@@ -96,7 +102,8 @@
 
 (setf *screen-mode-line-format*
       (list "" '(:eval (date-time))
-            " | " '(:eval (read-bat))
+            " | " '(:eval (read-bat-capacity))
+            " | " '(:eval (read-bat-status))
             " | " '(:eval (disk-usage))
             " | " '(:eval (check-uptime))))
 
