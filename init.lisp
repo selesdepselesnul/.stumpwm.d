@@ -1,6 +1,18 @@
 (in-package :stumpwm)
 (require :str)
 (require :cl-ppcre)
+(require :swank)
+
+(setf *swank-port* 4005)
+
+(defparameter
+  *is-swank-port-not-open*
+  (= (length (str:trim (run-shell-command
+           (concatenate 'string "lsof -i -P -n | grep LISTEN | grep "
+                        (write-to-string *swank-port*)) t))) 0))
+
+(when *is-swank-port-not-open*
+  (swank:create-server :PORT *swank-port*))
 
 (setq *startup-message* "Welcome, are you ready to code ?")
 
@@ -12,7 +24,7 @@
 (defun read-bat ()
   (concatenate 'string
 	       "battery : "
-	       (first (uiop:read-file-lines "/sys/class/power_supply/BAT1/capacity"))
+	       (first (uiop:read-file-lines "/sys/class/power_supply/BAT0/capacity"))
 	       "%"))
 
 (defun check-vol ()
