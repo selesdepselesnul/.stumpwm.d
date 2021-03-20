@@ -32,7 +32,7 @@
 (defun disk-usage-command ()
   (disk-usage))
 
-(defconstant +day-names+
+(setf +day-names+
   '("Monday" "Tuesday" "Wednesday"
     "Thursday" "Friday" "Saturday"
     "Sunday"))
@@ -159,7 +159,7 @@
         (progn
           (enable-keyboard-and-touchpad t)
           (message "enable internal keyboard and touchpad")))))
-;;;;
+
  	
 (defun do-with-sudo (func)
   (let ((password-temp-path "/tmp/stumpwm_password"))
