@@ -21,10 +21,13 @@
                               str
                               replacer))
 
+(defparameter *battery-file* "/sys/class/power_supply/BAT0")
+
 (defun read-bat ()
   (concatenate 'string
 	       "battery : "
-	       (first (uiop:read-file-lines "/sys/class/power_supply/BAT0/capacity"))
+	       (first (uiop:read-file-lines
+                   (concatenate 'string *battery-file* "/capacity")))
 	       "%"))
 
 (defun check-vol ()
