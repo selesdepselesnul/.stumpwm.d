@@ -3,6 +3,9 @@
 (require :cl-ppcre)
 (require :swank)
 
+(load-module "ttf-fonts")
+(set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 10))
+
 (setf *swank-port* 4005)
 
 (defparameter
