@@ -278,9 +278,9 @@
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
-(define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
-(define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
-(define-key *top-map* (kbd "s-q") "quit")
+;(define-key *top-map* (kbd "s-k") "selesdepselesnul/poweroff")
+;(define-key *top-map* (kbd "s-b") "selesdepselesnul/reboot")
+;(define-key *top-map* (kbd "s-q") "quit")
 (make-custom-key selesdepselesnul/lxterminal "lxterminal" *root-map* "c")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
 (make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
