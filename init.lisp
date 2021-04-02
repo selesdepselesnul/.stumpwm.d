@@ -279,6 +279,7 @@
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
 (make-custom-key selesdepselesnul/lxterminal "lxterminal" *top-map* "s-c")
+(make-custom-key selesdepselesnul/vs-code "code" *top-map* "s-e")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
 (make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
 (make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
