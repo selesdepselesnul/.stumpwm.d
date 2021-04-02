@@ -282,6 +282,7 @@
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
 (make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
 (make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
+(make-custom-key selesdepselesnul/vnstat "termite -e 'sudo systemctl poweroff'" *top-map* "s-#")
 (make-custom-key selesdepselesnul/tor-browser "tor-browser" *top-map* "s-t")
 (make-custom-key selesdepselesnul/vlc "vlc" *top-map* "s-v")
 (make-custom-key selesdepselesnul/vpn "termite -e 'sudo protonvpn connect -f'" *top-map* "s-x")
