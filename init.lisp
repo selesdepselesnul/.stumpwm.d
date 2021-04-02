@@ -284,6 +284,7 @@
 (make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
 (make-custom-key selesdepselesnul/tor-browser "tor-browser" *top-map* "s-t")
 (make-custom-key selesdepselesnul/vlc "vlc" *top-map* "s-v")
+(make-custom-key selesdepselesnul/vpn "termite -e 'sudo protonvpn connect -f'" *top-map* "s-x")
 (make-custom-key selesdepselesnul/okular "okular" *top-map* "s-r")
 (make-custom-key selesdepselesnul/postman "postman" *top-map* "s-u")
 (make-custom-key selesdepselesnul/brave "brave" *top-map* "s-b")
