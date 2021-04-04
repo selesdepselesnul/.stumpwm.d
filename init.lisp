@@ -74,6 +74,7 @@
             month
             year)))
 
+
 (defun check-connection ()
   (trim-total (run-shell-command
                (concatenate 'string
@@ -273,11 +274,23 @@
     (switch-to-group next-group)
     (kill-group-with-windows current-group)))
 
+(defun is-connect-to-vpn ()
+  (ppcre:all-matches-as-strings
+    "Connected"
+    (run-shell-command "protonvpn status" t)))
+
+(defcommand selesdepselesnul/is-connect-to-vpn () ()
+  (if (is-connect-to-vpn)
+      (message "Yes, you are connected to VPN !")
+      (message "No, you are not connected to VPN")))
+
+
 (defcommand selesdepselesnul/battery-info () ()
   (message (read-bat)))
 
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
+(define-key *top-map* (kbd "s-s") "selesdepselesnul/is-connect-to-vpn")
 (make-custom-key selesdepselesnul/lxterminal "lxterminal" *top-map* "s-c")
 (make-custom-key selesdepselesnul/vs-code "code" *top-map* "s-e")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
