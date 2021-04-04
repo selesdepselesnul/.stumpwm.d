@@ -281,6 +281,8 @@
 (make-custom-key selesdepselesnul/lxterminal "lxterminal" *top-map* "s-c")
 (make-custom-key selesdepselesnul/vs-code "code" *top-map* "s-e")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
+(make-custom-key selesdepselesnul/proton-connect "termite -e 'sudo protonvpn connect -f'" *top-map* "s-x")
+(make-custom-key selesdepselesnul/proton-disconnect "termite -e 'sudo protonvpn disconnect'" *top-map* "s-X")
 (make-custom-key selesdepselesnul/wifi-menu "termite -e 'sudo wifi-menu'" *top-map* "s-w")
 (make-custom-key selesdepselesnul/vnstat "termite -e 'vnstat -l'" *top-map* "s-n")
 (make-custom-key selesdepselesnul/poweroff "termite -e 'sudo systemctl poweroff'" *top-map* "s-F1")
