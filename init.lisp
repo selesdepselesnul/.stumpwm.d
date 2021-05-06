@@ -291,6 +291,7 @@
 ;; custom-key
 (define-key *top-map* (kbd "s-F5") "refresh")
 (define-key *top-map* (kbd "s-s") "selesdepselesnul/is-connect-to-vpn")
+(define-key *top-map* (kbd "s-.") "exec")
 (make-custom-key selesdepselesnul/lxterminal "lxterminal" *top-map* "s-c")
 (make-custom-key selesdepselesnul/vs-code "code" *top-map* "s-e")
 (make-custom-key selesdepselesnul/htop "termite -e htop" *top-map* "s-p")
