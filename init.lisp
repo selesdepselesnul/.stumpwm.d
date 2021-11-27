@@ -305,7 +305,7 @@
 (make-custom-key selesdepselesnul/vlc "vlc" *top-map* "s-v")
 (make-custom-key selesdepselesnul/okular "okular" *top-map* "s-r")
 (make-custom-key selesdepselesnul/postman "postman" *top-map* "s-u")
-(make-custom-key selesdepselesnul/brave "brave" *top-map* "s-b")
+(make-custom-key selesdepselesnul/brave "brave --disable-features=SendMouseLeaveEvents" *top-map* "s-b")
 (make-custom-key selesdepselesnul/google-chrome "google-chrome-stable" *top-map* "s-B")
 (make-custom-key selesdepselesnul/firefox "firefox" *top-map* "s-o")
 (make-custom-key selesdepselesnul/thunar "thunar" *top-map* "s-f")
