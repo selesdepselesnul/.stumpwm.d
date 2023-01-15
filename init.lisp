@@ -3,74 +3,19 @@
 (require :cl-ppcre)
 (require :swank)
 
-(setq *custom-modules-path* "~/.stumpwm.d/custom-modules")
-
-(load  (concatenate 'string *custom-modules-path* "/util"))
-
-(ignore-errors
- (load-module "ttf-fonts"))
-
-(ignore-errors
- (set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 14)))
-
-(defun get-root-device ()
-  (run-shell-command-trim
-   "df -h | grep -E 'dev/sda*' | grep -v '/boot'"))
-
-(defun detect-battery-path ()
-  (concatenate
-   'string
-   "/sys/class/power_supply/"
-   (run-shell-command-trim
-    "ls /sys/class/power_supply/ | grep -E 'BAT'")))
-
-(setf *swank-port* 4005)
-
-(defparameter
-  *is-swank-port-not-open*
-  (= (length (str:trim (run-shell-command
-           (concatenate 'string "lsof -i -P -n | grep LISTEN | grep "
-                        (write-to-string *swank-port*)) t))) 0))
-
-(when *is-swank-port-not-open*
-  (swank:create-server :PORT *swank-port*))
-
 (setq *startup-message* "Welcome, are you ready to code ?")
 
 
+(setq *custom-modules-path* "~/.stumpwm.d/custom-modules")
 
-(defparameter *battery-file* (detect-battery-path))
+(defun load-custom-module (custom-module)
+  (load  (concatenate 'string *custom-modules-path* "/" custom-module)))
 
-(defun read-bat-info (label type suffix)
-  (concatenate 'string
-           label
-	       (first (uiop:read-file-lines
-                   (concatenate 'string *battery-file* "/" type)))
-	       suffix))
-
-
-(defun read-bat-capacity ()
-  (read-bat-info "battery capacity : " "capacity" "%"))
-
-(defun read-bat-status ()
-  (read-bat-info "battery status : " "status" ""))
-
-(defun check-vol ()
-  (str:trim
-   (concatenate 'string
-                "volume : "
-                (run-shell-command
-                 "atur-polum --current"
-                 t))))
-
-(defun disk-usage ()
-  (concatenate 'string
-	       "disk : "
-               (get-root-device)
-               ))
-
-(defun disk-usage-command ()
-  (disk-usage))
+(load-custom-module "util")
+(load-custom-module "font")
+(load-custom-module "repl-server")
+(load-custom-module "battery")
+(load-custom-module "disk")
 
 (setf +day-names+
   '("Monday" "Tuesday" "Wednesday"
