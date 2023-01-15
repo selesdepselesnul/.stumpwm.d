@@ -10,3 +10,8 @@
    (run-shell-command
     command
     t)))
+
+(defun trim-total (str &optional (replacer ""))
+  (cl-ppcre:regex-replace-all "\\s"
+                              str
+                              replacer))
