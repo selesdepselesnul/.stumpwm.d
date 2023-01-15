@@ -3,22 +3,21 @@
 (require :cl-ppcre)
 (require :swank)
 
+(setq *custom-modules-path* "~/.stumpwm.d/custom-modules")
+
+(load  (concatenate 'string *custom-modules-path* "/util"))
+
 ;; (ignore-errors
 ;;  (load-module "ttf-fonts"))
 
 ;; (ignore-errors
 ;;  (set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 10)))
 
-(defun run-shell-command-trim (command)
-  (str:trim
-   (run-shell-command
-    command
-    t)))
+
 
 (defun get-root-device ()
   (run-shell-command-trim
    "df -h | grep -E 'dev/sda*' | grep -v '/boot'"))
-
 
 (defun detect-battery-path ()
   (concatenate
