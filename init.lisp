@@ -15,6 +15,11 @@
     command
     t)))
 
+(defun get-root-device ()
+  (run-shell-command-trim
+   "df -h | grep -E 'dev/sda*' | grep -v '/boot'"))
+
+
 (defun detect-battery-path ()
   (concatenate
    'string
@@ -67,7 +72,8 @@
 (defun disk-usage ()
   (concatenate 'string
 	       "disk : "
-	       (str:trim (run-shell-command "df -h | grep -E 'sda1' " t))))
+               (get-root-device)
+               ))
 
 (defun disk-usage-command ()
   (disk-usage))
@@ -328,3 +334,5 @@
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
+
+
