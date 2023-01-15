@@ -3,8 +3,24 @@
 (require :cl-ppcre)
 (require :swank)
 
-(load-module "ttf-fonts")
-(set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 10))
+;; (ignore-errors
+;;  (load-module "ttf-fonts"))
+
+;; (ignore-errors
+;;  (set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 10)))
+
+(defun run-shell-command-trim (command)
+  (str:trim
+   (run-shell-command
+    command
+    t)))
+
+(defun detect-battery-path ()
+  (concatenate
+   'string
+   "/sys/class/power_supply/"
+   (run-shell-command-trim
+    "ls /sys/class/power_supply/ | grep -E 'BAT'")))
 
 (setf *swank-port* 4005)
 
@@ -24,7 +40,7 @@
                               str
                               replacer))
 
-(defparameter *battery-file* "/sys/class/power_supply/BAT0")
+(defparameter *battery-file* (detect-battery-path))
 
 (defun read-bat-info (label type suffix)
   (concatenate 'string
