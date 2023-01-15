@@ -7,13 +7,11 @@
 
 (load  (concatenate 'string *custom-modules-path* "/util"))
 
-;; (ignore-errors
-;;  (load-module "ttf-fonts"))
+(ignore-errors
+ (load-module "ttf-fonts"))
 
-;; (ignore-errors
-;;  (set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 10)))
-
-
+(ignore-errors
+ (set-font (make-instance 'xft:font :family "Noto Serif" :subfamily "Regular" :size 14)))
 
 (defun get-root-device ()
   (run-shell-command-trim
@@ -327,6 +325,7 @@
 (make-custom-key selesdepselesnul/google-chrome "google-chrome-stable" *top-map* "s-B")
 (make-custom-key selesdepselesnul/firefox "firefox" *top-map* "s-o")
 (make-custom-key selesdepselesnul/thunar "thunar" *top-map* "s-f")
+
 
 ;; turn on/off the mode line for the current head only.
 (toggle-mode-line (current-screen) (current-head))
